@@ -1,5 +1,5 @@
 # rover-pi
-Raspberry Pi-powered rover, for the CA Space Grant Scholarship through San Diego Community College District
+Raspberry Pi-powered rover, for the CA Space Grant Scholarship through NASA at San Diego Miramar College
 
 ## Useful commands
 #### In the Pi terminal
