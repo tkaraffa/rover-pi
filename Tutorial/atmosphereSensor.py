@@ -30,7 +30,7 @@ def get_output_dir(dir)
 
 def get_device_id():
     bash_command = "cat /proc/cpuinfo | grep Serial | cut -d ' ' -f 2"
-    process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
+    process = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
     return output
 
