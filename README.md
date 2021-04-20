@@ -3,7 +3,8 @@ Raspberry Pi-powered rover, for the CA Space Grant Scholarship through NASA at S
 
 ## Useful commands
 #### In the Pi terminal
-* connect to pi at command line ```ssh pi@raspberrypi.local```
+* connect to pi at command line `ssh pi@raspberrypi.local`
 
 #### In the computer terminal
-* copy a file to the pi ```scp myfile.txt pi@raspberrypi.local:project/```
+* copy a file to the pi `scp myfile.txt pi@raspberrypi.local:project/`
+* copy a folder to the pit `scp -r myDirectory pi@raspberrypi.local:project/`
