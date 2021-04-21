@@ -4,9 +4,7 @@ from rover import Rover
 from time import sleep
 def main():
 
-    rover = Rover()
-    rover.setup()    
-
+    rover = Rover()            
     print("forward")
     rover.goForward()
     sleep(1.5)
