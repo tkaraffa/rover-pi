@@ -4,18 +4,24 @@ from rover import Rover
 from time import sleep
 def main():
 
-
     rover = Rover()
-    rover.setup()
-    t = rover.turn_time
+    rover.setup()    
 
-    for i in range(4):
-        rover.goForward()
-        sleep(t/2)
-        rover.spinRight()
-        sleep(t)
+    print("forward")
+    rover.goForward()
+    sleep(1.5)
+    print(rover.travel)
+    print('right')
+    rover.spinRight()
+    sleep(1.5)
+    print(rover.travel)
+    print('forward')
+    rover.goForward()
+    sleep(1.5)
+    print(rover.travel)
     rover.stop()
-    print(f"Rover traveled {round(rover.distance/20*rover.wheel_diameter, 2)}m")
+    print(rover.travel)
+    print(f"Rover traveled {round(rover.travel/20*rover.wheel_diameter, 2)}m")
 
 if __name__=="__main__":
     main()

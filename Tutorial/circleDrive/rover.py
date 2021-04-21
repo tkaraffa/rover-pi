@@ -5,55 +5,68 @@ import Adafruit_DHT
 import subprocess
 from time import sleep
 
-def get_device_id():
-    bash_command = "cat /proc/cpuinfo | grep Serial | cut -d ' ' -f 2"
-    byte = subprocess.run(bash_command, shell=True, capture_output=True).stdout
-    output = byte.decode("utf-8").strip()
-    return output
-
 def get_config_path(ini_file="rover.ini"):
     return os.path.join(os.path.dirname(__file__), ini_file)
 
+def do_record_travel(function):
+    def wrapper(self):
+        self.record_travel = True
+        function(self)
+    return wrapper
+    
+def do_not_record_travel(function):
+    def wrapper(self):
+        self.record_travel = False
+        function(self)
+    return wrapper
+
+
 class Rover:
     def __init__(self):
+        # this should all get moved to a setup.py or something eventually
+        # -------------------------------------------------
         self.config_path = get_config_path()
-        self.device_id = get_device_id()
-
-        self.low_speed = .4
-        self.high_speed = .9
-        self.turn_time = .7
-
-        self.wheel_diameter = .203
-
-        self.distance = 0
-        self.temp = 0
-        self.humidity = 0
-        self.directory_string = 'atmosphere-sensor-data'
-        self.file_string = 'atmosphere-sensor-data'
-        self.temp_units = "*C"
-        self.humidity_units = "%"
 
         config = ConfigParser()
         config.read(self.config_path)
-        pinout = config["Rover"]
-
-        self.RightForward = DigitalOutputDevice(pinout["RIGHTFORWARD"])
-        self.RightBackward = DigitalOutputDevice(pinout["RIGHTBACKWARD"])
-        self.RightSpeedPWM = PWMOutputDevice(pinout["RIGHTSPEEDPWM"])
-        self.LeftForward = DigitalOutputDevice(pinout["LEFTFORWARD"])
-        self.LeftBackward = DigitalOutputDevice(pinout["LEFTBACKWARD"])
-        self.LeftSpeedPWM = PWMOutputDevice(pinout["LEFTSPEEDPWM"])
-        self.RotaryEncoder = Button(pinout["ROTARYENCODER"])
-        #self.DistanceSensor = DistanceSensor(pinout["DISTANCESENSOR"])
-
+        rover_config = config["Rover"]
+        self.record_travel = True
+        self.low_speed = float(rover_config["LOWSPEED"])
+        self.high_speed = float(rover_config["HIGHSPEED"])
+        self.turn_time = float(rover_config["TURNTIME"])
+        self.wheel_diameter = float(rover_config["WHEELDIAMETER"])
+        self.travel = 0
+        self.temp = float(rover_config["TEMP"])
+        self.humidity = float(rover_config["HUMIDITY"])
+        self.directory_string = rover_config["DIRECTORY"]
+        self.file_string = rover_config["FILE"]
+        self.temp_units = rover_config["TEMPUNITS"]
+        self.humidity_units = rover_config["HUMIDITY"]
+        self.RightForward = DigitalOutputDevice(rover_config["RIGHTFORWARD"])
+        self.RightBackward = DigitalOutputDevice(rover_config["RIGHTBACKWARD"])
+        self.RightSpeedPWM = PWMOutputDevice(rover_config["RIGHTSPEEDPWM"])
+        self.LeftForward = DigitalOutputDevice(rover_config["LEFTFORWARD"])
+        self.LeftBackward = DigitalOutputDevice(rover_config["LEFTBACKWARD"])
+        self.LeftSpeedPWM = PWMOutputDevice(rover_config["LEFTSPEEDPWM"])
+        self.RotaryEncoder = Button(rover_config["ROTARYENCODER"]) 
+        self.DistanceSensor = DistanceSensor(rover_config["ECHO"], rover_config["TRIG"])
         self.DHT_SENSOR = Adafruit_DHT.DHT11
-        self.DHT_PIN = pinout["ATMOSPHERESENSOR"]
+        self.DHT_PIN = rover_config["ATMOSPHERESENSOR"]
+        # ------------------------------------------
+
+        self.device_id = self.get_device_id()
+        self.RotaryEncoder.when_pressed = self.add_travel
+        #self.humidity, self.temp = Adafruit_DHT.read_retry(self.DHT_SENSOR, self.DHT_PIN)
 
 
-    def add_distance(self, distance):
-        self.distance += 1
-        if self.distance % 10 == 0:
-            print(self.distance)
+
+
+    def add_travel(self):
+        if self.record_travel == True:
+            self.travel += 1
+        if self.travel % 100 == 0:
+            print(self.travel)
+
 
     def stop(self):
         self.RightForward.off()
@@ -63,6 +76,7 @@ class Rover:
         self.RightSpeedPWM.value = 0
         self.LeftSpeedPWM.value = 0
 
+    @do_record_travel
     def goForward(self):
         self.stop()
         self.RightForward.on()
@@ -70,6 +84,7 @@ class Rover:
         self.RightSpeedPWM.value = self.high_speed
         self.LeftSpeedPWM.value = self.high_speed
 
+    @do_record_travel
     def goBackward(self):
         self.stop()
         self.RightBackward.on()
@@ -77,6 +92,7 @@ class Rover:
         self.RightSpeedPWM.value = self.high_speed
         self.LeftSpeedPWM.value = self.high_speed
 
+    @do_not_record_travel
     def spinRight(self):
         self.stop()
         self.RightBackward.on()
@@ -84,6 +100,7 @@ class Rover:
         self.RightSpeedPWM.value = self.high_speed
         self.LeftSpeedPWM.value = self.high_speed
 
+    @do_not_record_travel
     def spinLeft(self):
         self.stop()
         self.RightForward.on()
@@ -91,6 +108,7 @@ class Rover:
         self.RightSpeedPWM.value = self.high_speed
         self.LeftSpeedPWM.value = self.high_speed
 
+    @do_record_travel
     def turnForwardRight(self):
         self.stop()
         self.RightForward.on()
@@ -98,6 +116,7 @@ class Rover:
         self.RightSpeedPWM.value = self.low_speed
         self.LeftSpeedPWM.value = self.high_speed
 
+    @do_record_travel
     def turnForwardLeft(self):
         self.stop()
         self.RightForward.on()
@@ -105,6 +124,7 @@ class Rover:
         self.RightSpeedPWM.value = self.high_speed
         self.LeftSpeedPWM.value = self.low_speed
 
+    @do_record_travel
     def turnBackwardRight(self):
         self.stop()
         self.RightBackward.on()
@@ -112,6 +132,7 @@ class Rover:
         self.RightSpeedPWM.value = self.low_speed
         self.LeftSpeedPWM.value = self.high_speed
 
+    @do_record_travel
     def turnBackwardLeft(self):
         self.stop()
         self.RightBackward.on()
@@ -119,20 +140,29 @@ class Rover:
         self.RightSpeedPWM.value = self.high_speed
         self.LeftSpeedPWM.value = self.low_speed
 
+    @do_not_record_travel
     def turnRight(self):
-        for i in range(2):
+        for _ in range(2):
             self.turnForwardRight()
             sleep(self.turn_time)
             self.turnBackwardLeft()
             sleep(self.turn_time)
 
+    @do_not_record_travel
     def turnLeft(self):
-        for i in range(2):
+        for _ in range(2):
             self.turnForwardLeft()
             sleep(self.turn_time)
             self.turnBackwardRight()
             sleep(self.turn_time)
 
+    def get_device_id(self):
+        bash_command = "cat /proc/cpuinfo | grep Serial | cut -d ' ' -f 2"
+        byte = subprocess.run(bash_command, shell=True, capture_output=True).stdout
+        output = byte.decode("utf-8").strip()
+        return output
+
     def setup(self):
-        self.RotaryEncoder.when_pressed = self.add_distance
+        self.device_id = self.get_device_id()
+        self.RotaryEncoder.when_pressed = self.add_travel
         #self.humidity, self.temp = Adafruit_DHT.read_retry(self.DHT_SENSOR, self.DHT_PIN)
