@@ -17,23 +17,29 @@ colors1 = [(1, 0, 0), (0, 1, 0), (0, 0, 1)]
 # 0: yellow, 1: magenta, 2: cyan
 colors2 = [(1, 1, 0), (1, 0, 1), (0, 1, 1)]
 
-class ButtonState(): # real dumb workaround for the buttom press to toggle
+
+class ButtonState:  # real dumb workaround for the buttom press to toggle
     state = True
+
+
 button_state = ButtonState()
 
 # tweak these for performance
-sleep_time = .25
-threshold = .025
+sleep_time = 0.25
+threshold = 0.025
+
 
 def change_button_state(button_state):
     button_state.state = not button_state.state
 
+
 # measure, at intervals, how far away an object is from the sensor
 def get_distance(sensor, sleep_time):
-    d0 =  sensor.distance
+    d0 = sensor.distance
     sleep(sleep_time)
     d1 = sensor.distance
-    return d1-d0
+    return d1 - d0
+
 
 def main():
     while True:
@@ -46,12 +52,13 @@ def main():
 
         # get change in distance
         delta = get_distance(sensor, sleep_time)
-        if delta < -threshold: # towards sensor
+        if delta < -threshold:  # towards sensor
             led.color = colors[0]
-        elif delta > threshold: # away from sensor
+        elif delta > threshold:  # away from sensor
             led.color = colors[1]
-        else: # not moving
+        else:  # not moving
             led.color = colors[2]
+
 
 if __name__ == "__main__":
     main()

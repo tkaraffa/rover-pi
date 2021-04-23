@@ -1,10 +1,13 @@
 from configparser import ConfigParser
 import os
 from gpiozero import PWMOutputDevice, DigitalOutputDevice, Button, DistanceSensor
-import Adafruit_DHT
+import adafruit_dht
 import subprocess
+import board
+from datetime import datetime
 from time import sleep
 import random
+
 
 class Rover:
     def __init__(self):
@@ -33,18 +36,21 @@ class Rover:
         self.LeftForward = DigitalOutputDevice(rover_config["LEFTFORWARD"])
         self.LeftBackward = DigitalOutputDevice(rover_config["LEFTBACKWARD"])
         self.LeftSpeedPWM = PWMOutputDevice(rover_config["LEFTSPEEDPWM"])
-        self.RotaryEncoder = Button(rover_config["ROTARYENCODER"]) 
+        self.RotaryEncoder = Button(rover_config["ROTARYENCODER"])
         self.DistanceSensor = DistanceSensor(echo=rover_config["ECHO"], trigger=rover_config["TRIG"])
-        self.DHT_SENSOR = Adafruit_DHT.DHT11
-        self.DHT_PIN = rover_config["ATMOSPHERESENSOR"]
-        self.DistanceSensor.threshold = .5
+        # self.DHT_PIN = board(rover_config["ATMOSPHERESENSOR"])
+        # self.DHT_SENSOR = adafruit_dht.DHT11()
+        self.DistanceSensor.threshold = 0.5
         # ------------------------------------------
-
+        self.accel_increment = 100
+        self.decel_increment = 100
+        self.accel_time = 5
+        self.decel_time = 5
         self.device_id = self.get_device_id()
         self.RotaryEncoder.when_pressed = self.add_travel
         self.DistanceSensor.when_in_range = self.change_direction
 
-        #self.humidity, self.temp = Adafruit_DHT.read_retry(self.DHT_SENSOR, self.DHT_PIN)
+        # self.humidity, self.temp = Adafruit_DHT.read_retry(self.DHT_SENSOR, self.DHT_PIN)
 
     # Setup functions --------------------------------------------------- #
     def get_config_path(self, ini_file="rover.ini"):
@@ -55,18 +61,18 @@ class Rover:
         byte = subprocess.run(bash_command, shell=True, capture_output=True).stdout
         output = byte.decode("utf-8").strip()
         return output
+
     # ------------------------------------------------------------------- #
-    
+
     # Sensor fucntions -------------------------------------------------- #
     def add_travel(self):
         if self.record_travel == True:
             self.travel += 1
-        if self.travel % 100 == 0:
-            print(self.travel)
 
     def change_direction(self):
         choice = random.choice([self.spinLeft, self.spinRight, self.turnLeft, self.turnRight])
         choice()
+
     # End sensor functions ---------------------------------------------- #
 
     # Driving functions ------------------------------------------------- #
@@ -83,28 +89,63 @@ class Rover:
             self.record_travel = True
             self.stop()
             function(self)
+
         return wrapper
-        
+
     def do_not_record_travel(function):
         def wrapper(self):
             self.record_travel = False
             self.stop()
             function(self)
+
         return wrapper
-    
-    @do_record_travel
-    def goForward(self):
-        self.RightForward.on()
-        self.LeftForward.on()
-        self.RightSpeedPWM.value = self.high_speed
-        self.LeftSpeedPWM.value = self.high_speed
+
+    def accel(self):
+        a = int(self.high_speed * self.accel_increment)
+        for speed in range(a):
+            self.RightSpeedPWM.value = speed / self.accel_increment
+            self.LeftSpeedPWM.value = speed / self.accel_increment
+            sleep(self.accel_time / a)
+            print(self.RightSpeedPWM.value)
+
+    def decel(self):
+        d = int(self.high_speed * self.decel_increment)
+        for speed in reversed(range(d)):
+            self.RightSpeedPWM.value = speed / self.decel_increment
+            self.LeftSpeedPWM.value = speed / self.decel_increment
+            sleep(self.decel_time / d)
+            print(self.RightSpeedPWM.value)
+
+    def accel_decel_decorator(function):
+        def wrapper(self):
+            self.accel()
+            self.decel()
+
+        return wrapper
+
+    def accel_decorator(function):
+        def wrapper(self):
+            self.accel()
+
+        return wrapper
+
+    def decel_decorator(function):
+        def wrapper(self):
+            self.decel()
+
+        return wrapper
 
     @do_record_travel
+    @accel_decel_decorator
+    def goForward(self, **kwargs):
+        self.RightForward.on()
+        self.LeftForward.on()
+
+    @do_record_travel
+    @accel_decel_decorator
     def goBackward(self):
         self.RightBackward.on()
         self.LeftBackward.on()
-        self.RightSpeedPWM.value = self.high_speed
-        self.LeftSpeedPWM.value = self.high_speed
 
     @do_not_record_travel
     def spinRight(self):
@@ -163,4 +204,5 @@ class Rover:
             sleep(self.turn_time)
             self.turnBackwardRight()
             sleep(self.turn_time)
+
     # End driving functions --------------------------------------------- #

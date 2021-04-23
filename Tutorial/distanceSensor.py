@@ -9,13 +9,15 @@ led = RGBLED(red=16, green=20, blue=21)
 # add rgbled and have it change color depending on moving towards/away/not
 
 
-threshold = .05
+threshold = 0.05
+
 
 def get_distance(sensor):
-    d0 =  sensor.distance
-    sleep(.5)
+    d0 = sensor.distance
+    sleep(0.5)
     d1 = sensor.distance
-    return d1-d0
+    return d1 - d0
+
 
 # the funtions in each if statement aren't
 # working right...
@@ -28,5 +30,7 @@ def main():
             led.color = (0, 1, 0)
         else:
             led.color = (1, 0, 0)
+
+
 if __name__ == "__main__":
     main()

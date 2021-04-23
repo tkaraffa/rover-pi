@@ -6,7 +6,9 @@ button = Button(2)
 
 button.when_pressed = switch
 
+
 def switch():
     ~led.is_active
+
 
 pause()

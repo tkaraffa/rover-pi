@@ -18,15 +18,17 @@ DHT_PIN = 4
 
 # change as needed
 seconds_between_records = 1
-directory_string = 'atmosphere-sensor-data'
-file_string = 'atmosphere-sensor-data'
+directory_string = "atmosphere-sensor-data"
+file_string = "atmosphere-sensor-data"
 temp_units = "*C"
 humidity_units = "%"
 
-def get_output_dir(dir)
+
+def get_output_dir(dir):
     if not os.path.exists(dir):
         os.makedirs(dir)
     return dir
+
 
 def get_device_id():
     bash_command = "cat /proc/cpuinfo | grep Serial | cut -d ' ' -f 2"
@@ -34,10 +36,12 @@ def get_device_id():
     output, error = process.communicate()
     return output
 
+
 def get_file_name(file):
     file_time = datetime.now().strftime("%Y-%m-%d--%H-%M-%S-%f")
     file_name = f"{file}--{file_time}.jsonl"
     return file_name
+
 
 device_id = get_device_id()
 output_dir = get_output_dir(data_string)
@@ -48,7 +52,7 @@ while True:
     # record sensor data
     # humidity, temp = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN)
 
-    humidity, temp = 15, 15 # stand-in data until sensor is set up
+    humidity, temp = 15, 15  # stand-in data until sensor is set up
 
     time_record = datetime.now()
     date_string = time_record.strftime("%Y-%m-%d")
@@ -58,15 +62,10 @@ while True:
         "date": date_string,
         "time": time_string,
         "data": {
-            "humidity": {
-                "measurement": humidity,
-                "units": humidity_units},
-            "temperature": {
-                "measurement": temp,
-                "units": temp_units
-            }
-        }
+            "humidity": {"measurement": humidity, "units": humidity_units},
+            "temperature": {"measurement": temp, "units": temp_units},
+        },
     }
-    with open(output, 'a+') as f:
-        f.write(json.dumps(data)+"\n")
+    with open(output, "a+") as f:
+        f.write(json.dumps(data) + "\n")
     sleep(seconds_between_records)
