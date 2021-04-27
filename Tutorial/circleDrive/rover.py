@@ -1,4 +1,3 @@
-from configparser import ConfigParser
 import os
 from gpiozero import PWMOutputDevice, DigitalOutputDevice, Button, DistanceSensor
 import adafruit_dht
@@ -7,38 +6,35 @@ import board
 from datetime import datetime
 from time import sleep
 import random
-
+from dotenv import load_dotenv
 
 class Rover:
     def __init__(self):
         # this should all get moved to a setup.py or something eventually
         # -------------------------------------------------
-        self.config_path = self.get_config_path()
+        load_dotenv()
 
-        config = ConfigParser()
-        config.read(self.config_path)
-        rover_config = config["Rover"]
         self.record_travel = True
-        self.low_speed = float(rover_config["LOWSPEED"])
-        self.high_speed = float(rover_config["HIGHSPEED"])
-        self.turn_time = float(rover_config["TURNTIME"])
-        self.wheel_diameter = float(rover_config["WHEELDIAMETER"])
+        self.low_speed = float(os.getenv("LOWSPEED"))
+        self.high_speed = float(os.getenv("HIGHSPEED"))
+        self.turn_time = float(os.getenv("TURNTIME"))
+        self.wheel_diameter = float(os.getenv("WHEELDIAMETER"))
         self.travel = 0
-        self.temp = float(rover_config["TEMP"])
-        self.humidity = float(rover_config["HUMIDITY"])
-        self.directory_string = rover_config["DIRECTORY"]
-        self.file_string = rover_config["FILE"]
-        self.temp_units = rover_config["TEMPUNITS"]
-        self.humidity_units = rover_config["HUMIDITY"]
-        self.RightForward = DigitalOutputDevice(rover_config["RIGHTFORWARD"])
-        self.RightBackward = DigitalOutputDevice(rover_config["RIGHTBACKWARD"])
-        self.RightSpeedPWM = PWMOutputDevice(rover_config["RIGHTSPEEDPWM"])
-        self.LeftForward = DigitalOutputDevice(rover_config["LEFTFORWARD"])
-        self.LeftBackward = DigitalOutputDevice(rover_config["LEFTBACKWARD"])
-        self.LeftSpeedPWM = PWMOutputDevice(rover_config["LEFTSPEEDPWM"])
-        self.RotaryEncoder = Button(rover_config["ROTARYENCODER"])
-        self.DistanceSensor = DistanceSensor(echo=rover_config["ECHO"], trigger=rover_config["TRIG"])
-        # self.DHT_PIN = board(rover_config["ATMOSPHERESENSOR"])
+        self.temp = float(os.getenv("TEMP"))
+        self.humidity = float(os.getenv("HUMIDITY"))
+        self.directory_string = os.getenv("DIRECTORY")
+        self.file_string = os.getenv("FILE")
+        self.temp_units = os.getenv("TEMPUNITS")
+        self.humidity_units = os.getenv("HUMIDITY")
+        self.RightForward = DigitalOutputDevice(os.getenv("RIGHTFORWARD"))
+        self.RightBackward = DigitalOutputDevice(os.getenv("RIGHTBACKWARD"))
+        self.RightSpeedPWM = PWMOutputDevice(os.getenv("RIGHTSPEEDPWM"))
+        self.LeftForward = DigitalOutputDevice(os.getenv("LEFTFORWARD"))
+        self.LeftBackward = DigitalOutputDevice(os.getenv("LEFTBACKWARD"))
+        self.LeftSpeedPWM = PWMOutputDevice(os.getenv("LEFTSPEEDPWM"))
+        self.RotaryEncoder = Button(os.getenv("ROTARYENCODER"))
+        self.DistanceSensor = DistanceSensor(echo=os.getenv("ECHO"), trigger=os.getenv("TRIG"))
+        # self.DHT_PIN = board(os.getenv("ATMOSPHERESENSOR"])
         # self.DHT_SENSOR = adafruit_dht.DHT11()
         self.DistanceSensor.threshold = 0.5
         # ------------------------------------------
@@ -53,8 +49,6 @@ class Rover:
         # self.humidity, self.temp = Adafruit_DHT.read_retry(self.DHT_SENSOR, self.DHT_PIN)
 
     # Setup functions --------------------------------------------------- #
-    def get_config_path(self, ini_file="rover.ini"):
-        return os.path.join(os.path.dirname(__file__), ini_file)
 
     def get_device_id(self):
         bash_command = "cat /proc/cpuinfo | grep Serial | cut -d ' ' -f 2"
@@ -100,24 +94,27 @@ class Rover:
 
         return wrapper
 
-    def accel(self):
-        a = int(self.high_speed * self.accel_increment)
-        for speed in range(a):
+    def accel(self, time=self.accel_time):
+        max_speed = int(self.high_speed * self.accel_increment)
+        min_speed = int(self.low_speed * self.accel_increment)
+        speed_delta = max_speed - min_speed
+        for speed in range(min_speed, max_speed):
             self.RightSpeedPWM.value = speed / self.accel_increment
             self.LeftSpeedPWM.value = speed / self.accel_increment
-            sleep(self.accel_time / a)
-            print(self.RightSpeedPWM.value)
+            sleep(time / speed_delta)
 
-    def decel(self):
-        d = int(self.high_speed * self.decel_increment)
-        for speed in reversed(range(d)):
+    def decel(self, time=self.decel_time):
+        max_speed = int(self.high_speed * self.decel_increment) # 90
+        min_speed = int(self.low_speed * self.decel_increment) # 20 
+        speed_delta = max_speed - min_speed
+        for speed in reversed(range(min_speed, max_speed)):
             self.RightSpeedPWM.value = speed / self.decel_increment
             self.LeftSpeedPWM.value = speed / self.decel_increment
-            sleep(self.decel_time / d)
-            print(self.RightSpeedPWM.value)
+            sleep(time / speed_delta)
 
     def accel_decel_decorator(function):
         def wrapper(self):
+            function(self)
             self.accel()
             self.decel()
 
@@ -125,19 +122,21 @@ class Rover:
 
     def accel_decorator(function):
         def wrapper(self):
+            function(self)
             self.accel()
 
         return wrapper
 
     def decel_decorator(function):
         def wrapper(self):
+            function(self)
             self.decel()
 
         return wrapper
 
     @do_record_travel
     @accel_decel_decorator
-    def goForward(self, **kwargs):
+    def goForward(self):
         self.RightForward.on()
         self.LeftForward.on()
 
