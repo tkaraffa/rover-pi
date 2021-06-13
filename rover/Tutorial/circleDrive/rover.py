@@ -6,17 +6,14 @@ import board
 from datetime import datetime
 from time import sleep
 import random
-from dotenv import load_dotenv, find_dotenv
-load_dotenv()
-print(find_dotenv())
-print(load_dotenv(find_dotenv()))
-print(os.environ)
+from dotenv import load_dotenv
+
 
 class Rover:
     def __init__(self):
         # this should all get moved to a setup.py or something eventually
         # -------------------------------------------------
-
+        load_dotenv()
         self.record_travel = True
         self.low_speed = float(os.getenv("LOWSPEED"))
         self.high_speed = float(os.getenv("HIGHSPEED"))
