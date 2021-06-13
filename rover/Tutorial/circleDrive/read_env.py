@@ -2,6 +2,7 @@ from rover import Rover
 from time import sleep
 from dotenv import load_dotenv
 load_dotenv()
+print(load_dotenv())
 rover = Rover()
 
 while True:
