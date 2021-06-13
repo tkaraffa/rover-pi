@@ -1,5 +1,6 @@
-from rover import Rover
+# from rover import Rover
 from time import sleep
+
 rover = Rover()
 
 while True:

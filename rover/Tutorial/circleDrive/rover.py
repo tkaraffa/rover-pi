@@ -6,8 +6,11 @@ import board
 from datetime import datetime
 from time import sleep
 import random
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 load_dotenv()
+print(find_dotenv())
+print(load_dotenv(find_dotenv()))
+print(os.environ)
 
 class Rover:
     def __init__(self):
