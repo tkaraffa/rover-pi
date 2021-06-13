@@ -15,6 +15,7 @@ class Rover:
 
 
     def __init__(self):
+        load_dotenv()
         # this should all get moved to a setup.py or something eventually
         # -------------------------------------------------
         self.record_travel = True
