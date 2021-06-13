@@ -55,7 +55,7 @@ class Rover:
 
     def get_dht_sensor(self):
         pin = os.getenv("ATMOSPHERESENSOR")
-        return adafruit_dht.DHT11(board(pin))
+        return adafruit_dht.DHT11(board.pin)
 
     def get_device_id(self):
         bash_command = "cat /proc/cpuinfo | grep Serial | cut -d ' ' -f 2"
