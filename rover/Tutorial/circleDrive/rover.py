@@ -10,10 +10,13 @@ from dotenv import load_dotenv
 
 
 class Rover:
+
+    load_dotenv()
+
+
     def __init__(self):
         # this should all get moved to a setup.py or something eventually
         # -------------------------------------------------
-        load_dotenv()
         self.record_travel = True
         self.low_speed = float(os.getenv("LOWSPEED"))
         self.high_speed = float(os.getenv("HIGHSPEED"))
