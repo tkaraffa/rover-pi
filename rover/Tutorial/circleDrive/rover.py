@@ -7,12 +7,12 @@ from datetime import datetime
 from time import sleep
 import random
 from dotenv import load_dotenv
+load_dotenv()
 
 class Rover:
     def __init__(self):
         # this should all get moved to a setup.py or something eventually
         # -------------------------------------------------
-        load_dotenv()
 
         self.record_travel = True
         self.low_speed = float(os.getenv("LOWSPEED"))
