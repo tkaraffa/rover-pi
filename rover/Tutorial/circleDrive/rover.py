@@ -103,7 +103,9 @@ class Rover:
 
         return wrapper
 
-    def accel(self, time=self.accel_time):
+    def accel(self, time=None):
+        if not time:
+            time = self.accel
         max_speed = int(self.high_speed * self.accel_increment)
         min_speed = int(self.low_speed * self.accel_increment)
         speed_delta = max_speed - min_speed
@@ -112,7 +114,9 @@ class Rover:
             self.LeftSpeedPWM.value = speed / self.accel_increment
             sleep(time / speed_delta)
 
-    def decel(self, time=self.decel_time):
+    def decel(self, time=None):
+        if not time:
+            time = self.decel_time
         max_speed = int(self.high_speed * self.decel_increment) # 90
         min_speed = int(self.low_speed * self.decel_increment) # 20 
         speed_delta = max_speed - min_speed
