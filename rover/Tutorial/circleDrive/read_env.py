@@ -8,7 +8,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 
 # Google Docs OAuth credential JSON file.  
-GDOCS_OAUTH_JSON = 'auth.json'
+GDOCS_OAUTH_JSON = 'rover/Tutorial/circleDrive/auth.json'
 
 # Google Docs spreadsheet name.
 GDOCS_SPREADSHEET_NAME = 'env_data'
