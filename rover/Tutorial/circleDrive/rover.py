@@ -55,7 +55,7 @@ class Rover:
 
     def get_dht_sensor(self):
         pin = os.getenv("ATMOSPHERESENSOR")
-        return exec(f'adafruit_dht.DHT11(board.{pin}, use_pulsio=False')
+        return exec(f'adafruit_dht.DHT11(board.{pin}, use_pulsio=False)')
 
 
     def get_device_id(self):
