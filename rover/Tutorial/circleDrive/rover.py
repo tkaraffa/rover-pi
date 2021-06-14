@@ -56,6 +56,7 @@ class Rover:
     def get_dht_sensor(self):
         pin = os.getenv("ATMOSPHERESENSOR")
         sensor = None
+        print(pin)
         exec(f'sensor = adafruit_dht.DHT11(board.{pin}, use_pulseio=False)') 
         print(sensor)
         return sensor
