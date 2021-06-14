@@ -17,7 +17,7 @@ GDOCS_OAUTH_JSON = os.path.join(
 GDOCS_SPREADSHEET_NAME = 'env_data'
 
 # How long to wait (in seconds) between measurements.
-FREQUENCY_SECONDS  = 30
+FREQUENCY_SECONDS  = 2
 
 
 rover = Rover()
