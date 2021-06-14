@@ -38,7 +38,7 @@ class Rover:
         self.LeftSpeedPWM = PWMOutputDevice(os.getenv("LEFTSPEEDPWM"))
         self.RotaryEncoder = Button(os.getenv("ROTARYENCODER"))
         self.DistanceSensor = DistanceSensor(echo=os.getenv("ECHO"), trigger=os.getenv("TRIG"))
-        self.DHT_SENSOR = adafruit_dht.DHT11(int(os.getenv("ATMOSPHERESENSOR")))
+        self.DHT_SENSOR = adafruit_dht.DHT11(int(os.getenv("ATMOSPHERESENSOR")), use_pulseio=False)
         self.DistanceSensor.threshold = 0.5
         # ------------------------------------------
         self.accel_increment = 100
