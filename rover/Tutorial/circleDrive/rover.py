@@ -77,10 +77,16 @@ class Rover:
         choice()
 
     def get_humidity(self):
-        return self.DHT_SENSOR.humidity
+        try:
+            return self.DHT_SENSOR.humidity
+        except:
+            return None
 
     def get_temperature(self):
-        return self.DHT_SENSOR.temperature
+        try:
+            return self.DHT_SENSOR.temperature
+        except:
+            return None
 
     # End sensor functions ---------------------------------------------- #
 
