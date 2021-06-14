@@ -4,6 +4,10 @@ from time import sleep
 rover = Rover()
 
 while True:
-    print(rover.get_humidity())
-    print(rover.get_temperature())
+    try:
+        print(rover.get_humidity())
+        print(rover.get_temperature())
+
+    except:
+        pass
     sleep(1)
