@@ -1,6 +1,7 @@
 import sys
 import time
 import datetime
+import os
 
 from rover import Rover
 import gspread
@@ -8,8 +9,10 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 
 # Google Docs OAuth credential JSON file.  
-GDOCS_OAUTH_JSON = 'rover/Tutorial/circleDrive/auth.json'
-
+GDOCS_OAUTH_JSON = os.path.join(
+    os.path.dirname(__file__),
+    'auth.json'
+)
 # Google Docs spreadsheet name.
 GDOCS_SPREADSHEET_NAME = 'env_data'
 
