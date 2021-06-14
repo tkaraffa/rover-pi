@@ -38,7 +38,7 @@ class Rover:
         self.LeftSpeedPWM = PWMOutputDevice(os.getenv("LEFTSPEEDPWM"))
         self.RotaryEncoder = Button(os.getenv("ROTARYENCODER"))
         self.DistanceSensor = DistanceSensor(echo=os.getenv("ECHO"), trigger=os.getenv("TRIG"))
-        self.DHT_SENSOR = adafruit_dht.DHT11(int(os.getenv("ATMOSPHERESENSOR")), use_pulseio=False)
+        self.DHT_SENSOR = self.get_dht_sensor()
         self.DistanceSensor.threshold = 0.5
         # ------------------------------------------
         self.accel_increment = 100
@@ -52,6 +52,10 @@ class Rover:
         # self.humidity, self.temp = Adafruit_DHT.read_retry(self.DHT_SENSOR, self.DHT_PIN)
 
     # Setup functions --------------------------------------------------- #
+
+    def get_dht_sensor(self):
+        pin = os.getenv("ATMOSPHERESENSOR")
+        return exec('adafruit_dht.DHT11(board.{pin}, use_pulsio=False')
 
 
     def get_device_id(self):
