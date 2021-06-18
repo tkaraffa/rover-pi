@@ -47,8 +47,8 @@ while True:
         worksheet = login_open_sheet(GDOCS_OAUTH_JSON, GDOCS_SPREADSHEET_NAME)
 
     # Attempt to get sensor reading.
-    temp = rover.get_temperature()
-    humidity = rover.get_humidity()
+    temp = rover.sense_temperature()
+    humidity = rover.sense_humidity()
 
     # Skip to the next reading if a valid measurement couldn't be taken.
     # This might happen if the CPU is under a lot of load and the sensor
