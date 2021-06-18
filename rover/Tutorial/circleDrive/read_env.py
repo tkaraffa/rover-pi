@@ -1,5 +1,5 @@
 import sys
-import time
+from time import sleep
 from datetime import datetime
 import os
 
@@ -75,9 +75,9 @@ while True:
         # Null out the worksheet so a login is performed at the top of the loop.
         print('Append error, logging in again')
         worksheet = None
-        time.sleep(FREQUENCY_SECONDS)
+        sleep(FREQUENCY_SECONDS)
         continue
 
     print(f'Wrote a row to {GDOCS_SPREADSHEET_NAME}')
-    time.sleep(FREQUENCY_SECONDS)
+    sleep(FREQUENCY_SECONDS)
 
