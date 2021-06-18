@@ -62,6 +62,14 @@ while True:
         sleep(2)
         continue
 
+    data = {
+        'Temperature': temp,
+        'Humidity': humidity,
+        'Light': light,
+        'ID': device_id,
+        'Timestamp': datetime.now().isoformat()
+    }
+
 
     print(f'Temperature:    {temp}')
     print(f'Humidity:       {humidity}')
