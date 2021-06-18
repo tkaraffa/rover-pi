@@ -59,6 +59,7 @@ while True:
     # can't be reliably read (timing is critical to read the sensor).
     if temp is None and humidity is None:
         print('skipping')
+        sleep(2)
         continue
 
 
