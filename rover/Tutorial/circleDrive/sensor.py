@@ -17,8 +17,8 @@ class Sensor:
         self.humidity = 0
 
     def create_dht_sensor(self, pin):
+        print(pin)
         exec(f'sensor = adafruit_dht.DHT11(board.{pin}, use_pulseio=False)', None, globals())
-        print(dir(sensor))
         return sensor
 
     def sense_light(self):
