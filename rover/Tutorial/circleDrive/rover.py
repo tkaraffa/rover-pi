@@ -3,6 +3,7 @@ from gpiozero import LightSensor
 import subprocess
 from dotenv import load_dotenv
 import adafruit_dht
+import board
 
 import warnings
 warnings.filterwarnings("ignore")
