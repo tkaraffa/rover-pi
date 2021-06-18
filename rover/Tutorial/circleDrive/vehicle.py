@@ -12,6 +12,7 @@ warnings.filterwarnings("ignore")
 class Vehicle:
 
     def __init__(self):
+        super(Vehicle, self).__init__()
         # Values
         self.low_speed = float(os.getenv("LOWSPEED"))
         self.high_speed = float(os.getenv("HIGHSPEED"))

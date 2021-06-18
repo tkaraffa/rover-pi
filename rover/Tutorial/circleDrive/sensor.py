@@ -6,6 +6,7 @@ from gpiozero import LightSensor
 class Sensor:
         
     def __init__(self):
+        super(Sensor, self).__init__()
         self.temp_units = os.getenv("TEMPUNITS")
         self.humidity_units = os.getenv("HUMIDITY")
 
