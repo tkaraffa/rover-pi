@@ -31,12 +31,10 @@ class Sensor:
         try:
             return self.DHTSensor.humidity
         except:
-            print("coundnt get humidity")
             return None
 
     def sense_temperature(self):
         try:
             return self.DHTSensor.temperature
         except:
-            print('couldnt get temp')
             return None

@@ -12,7 +12,6 @@ class Rover(Vehicle, Sensor):
 
     load_dotenv()
 
-
     def __init__(self):
         super(Rover, self).__init__()
 
@@ -25,21 +24,8 @@ class Rover(Vehicle, Sensor):
 
         self.device_id = self.read_device_id()
 
-    # Setup functions --------------------------------------------------- #
-
-
-
-
     def read_device_id(self):
         bash_command = "cat /proc/cpuinfo | grep Serial | cut -d ' ' -f 2"
         byte = subprocess.run(bash_command, shell=True, capture_output=True).stdout
         output = byte.decode("utf-8").strip()
         return output
-
-
-
-    # End sensor functions ---------------------------------------------- #
-
-    # Driving functions ------------------------------------------------- #
-
-    # End driving functions --------------------------------------------- #
