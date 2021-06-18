@@ -41,6 +41,9 @@ print('Logging sensor measurements to\
  {0} every {1} seconds.'.format(GDOCS_SPREADSHEET_NAME, FREQUENCY_SECONDS))
 print('Press Ctrl-C to quit.')
 worksheet = None
+
+device_id = rover.read_device_id()
+
 while True:
     # Login if necessary.
     if worksheet is None:
@@ -49,6 +52,7 @@ while True:
     # Attempt to get sensor reading.
     temp = rover.sense_temperature()
     humidity = rover.sense_humidity()
+    light = rover.sense_light()
 
     # Skip to the next reading if a valid measurement couldn't be taken.
     # This might happen if the CPU is under a lot of load and the sensor
@@ -57,12 +61,13 @@ while True:
         time.sleep(2)
         continue
 
-    print('Temperature: {0:0.1f} C'.format(temp))
-    print('Humidity:    {0:0.1f} %'.format(humidity))
+    print(f'Temperature:    {temp}')
+    print(f'Humidity:       {humidity}')
+    print(f'Light:          {light}')
 
     # Append the data in the spreadsheet, including a timestamp
     try:
-        worksheet.append_row((datetime.datetime.now().isoformat(), temp, humidity))
+        worksheet.append_row((device_id, datetime.datetime.now().isoformat(), temp, humidity, light))
     except: # pylint: disable=bare-except, broad-except
         # Error appending data, most likely because credentials are stale.
         # Null out the worksheet so a login is performed at the top of the loop.
