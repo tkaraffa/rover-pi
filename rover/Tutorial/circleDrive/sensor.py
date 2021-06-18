@@ -11,13 +11,14 @@ class Sensor:
         self.humidity_units = os.getenv("HUMIDITY")
 
         self.LightSensor = LightSensor(os.getenv("LIGHTSENSOR"))
-        self.DHTSensor = self.create_dht_sensor(os.getenv("ATMOSPHERESENSOR"))
+        self.DHTSensor = self.create_dht_sensor(pin=os.getenv("ATMOSPHERESENSOR"))
 
         self.temp = 0
         self.humidity = 0
 
     def create_dht_sensor(self, pin):
         exec(f'sensor = adafruit_dht.DHT11(board.{pin}, use_pulseio=False)', None, globals())
+        print(dir(sensor))
         return sensor
 
     def sense_light(self):
