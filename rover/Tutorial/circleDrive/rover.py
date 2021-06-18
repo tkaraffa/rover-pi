@@ -15,7 +15,7 @@ class Rover(Vehicle):
 
 
     def __init__(self):
-        super.__init__()
+        super().__init__()
 
         load_dotenv()
         # this should all get moved to a setup.py or something eventually
