@@ -1,6 +1,6 @@
 import sys
 import time
-import datetime
+from datetime import datetime
 import os
 
 from rover import Rover
@@ -65,7 +65,7 @@ while True:
 
     # Append the data in the spreadsheet, including a timestamp
     try:
-        worksheet.append_row((device_id, datetime.datetime.now().isoformat(), temp, humidity, light))
+        worksheet.append_row((device_id, datetime.now().isoformat(), temp, humidity, light))
     except: # pylint: disable=bare-except, broad-except
         # Error appending data, most likely because credentials are stale.
         # Null out the worksheet so a login is performed at the top of the loop.
@@ -74,7 +74,6 @@ while True:
         time.sleep(FREQUENCY_SECONDS)
         continue
 
-    # Wait 30 seconds before continuing
-    print('Wrote a row to {0}'.format(GDOCS_SPREADSHEET_NAME))
+    print(f'Wrote a row to {GDOCS_SPREADSHEET_NAME}')
     time.sleep(FREQUENCY_SECONDS)
 
