@@ -31,8 +31,9 @@ def login_open_sheet(oauth_key_file, spreadsheet):
         worksheet = gc.open(spreadsheet).sheet1 # pylint: disable=redefined-outer-name
         return worksheet
     except Exception as ex: # pylint: disable=bare-except, broad-except
-        print('Unable to login and get spreadsheet.  Check OAuth credentials, spreadsheet name, \
-        and make sure spreadsheet is shared to the client_email address in the OAuth .json file!')
+        print('''
+Unable to login and get spreadsheet.  Check OAuth credentials, spreadsheet name,
+and make sure spreadsheet is shared to the client_email address in the OAuth .json file!''')
         print('Google sheet login failed with error:', ex)
         sys.exit(1)
 
