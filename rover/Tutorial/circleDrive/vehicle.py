@@ -42,6 +42,8 @@ class Vehicle:
         self.RotaryEncoder.when_pressed = self.add_travel
         self.DistanceSensor.when_in_range = self.change_direction
 
+    def sense_distance(self):
+        return self.DistanceSensor.distance
 
     def add_travel(self):
         if self.record_travel == True:
