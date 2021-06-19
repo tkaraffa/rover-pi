@@ -43,7 +43,7 @@ print('Logging sensor measurements to\
 print('Press Ctrl-C to quit.')
 
 worksheet = login_open_sheet(GDOCS_OAUTH_JSON, GDOCS_SPREADSHEET_NAME)
-headers = worksheet.get('A1:AAAAA1')[0]
+headers = worksheet.get('A1:AAA1')[0]
 
 
 while True:
