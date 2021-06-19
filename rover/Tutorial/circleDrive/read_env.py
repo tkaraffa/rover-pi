@@ -62,6 +62,7 @@ while True:
         'Distance': rover.sense_distance()
     }
 
+    print(data)
 
     if data['Temperature'] is None and data['Humidity'] is None:
         print('skipping')
