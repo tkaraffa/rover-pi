@@ -6,8 +6,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-import warnings
-warnings.filterwarnings("ignore")
+# import warnings
+# warnings.filterwarnings("ignore")
 
 class Vehicle:
 
@@ -43,8 +43,6 @@ class Vehicle:
         self.DistanceSensor.when_in_range = self.change_direction
 
     def sense_distance(self):
-        print(self.DistanceSensor.distance)
-        print(self.DistanceSensor.value)
         return self.DistanceSensor.distance
 
     def add_travel(self):
