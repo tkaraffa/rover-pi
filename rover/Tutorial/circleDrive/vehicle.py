@@ -29,7 +29,7 @@ class Vehicle:
         self.RotaryEncoder = Button(os.getenv("ROTARYENCODER"))
         self.DistanceSensor = DistanceSensor(echo=os.getenv("ECHO"), trigger=os.getenv("TRIG"))
 
-        # initialize values to use
+        # default values
         self.record_travel = True
         self.travel = 0
         self.accel_increment = 100

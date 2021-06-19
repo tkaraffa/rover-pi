@@ -29,3 +29,4 @@ class Rover(Vehicle, Sensor):
         byte = subprocess.run(bash_command, shell=True, capture_output=True).stdout
         output = byte.decode("utf-8").strip()
         return output
+    

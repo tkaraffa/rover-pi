@@ -13,6 +13,7 @@ class Sensor:
         self.LightSensor = LightSensor(os.getenv("LIGHTSENSOR"))
         self.DHTSensor = self.create_dht_sensor(pin=os.getenv("ATMOSPHERESENSOR"))
 
+        # default values
         self.temp = 0
         self.humidity = 0
 
@@ -24,7 +25,7 @@ class Sensor:
         try:
             return self.LightSensor.value
         except:
-            None
+            return None
 
     def sense_humidity(self):
         try:

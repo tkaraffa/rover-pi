@@ -42,42 +42,41 @@ print('Logging sensor measurements to\
 print('Press Ctrl-C to quit.')
 worksheet = None
 
-device_id = rover.read_device_id()
-
 while True:
     # Login if necessary.
     if worksheet is None:
         worksheet = login_open_sheet(GDOCS_OAUTH_JSON, GDOCS_SPREADSHEET_NAME)
 
     # Attempt to get sensor reading.
-    temp = rover.sense_temperature()
-    humidity = rover.sense_humidity()
-    light = rover.sense_light()
+
 
     # Skip to the next reading if a valid measurement couldn't be taken.
     # This might happen if the CPU is under a lot of load and the sensor
     # can't be reliably read (timing is critical to read the sensor).
-    if temp is None and humidity is None:
+
+
+    data = {
+        'Temperature': rover.sense_temperature(),
+        'Humidity': rover.sense_humidity(),
+        'Light': rover.sense_light(),
+        'ID': rover.device_id,
+        'Timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+        'Distance': rover.distance
+    }
+
+    if data['Temperature'] is None and data['Humidity'] is None:
         print('skipping')
         sleep(2)
         continue
 
-    data = {
-        'Temperature': temp,
-        'Humidity': humidity,
-        'Light': light,
-        'ID': device_id,
-        'Timestamp': datetime.now().isoformat()
-    }
 
-
-    print(f'Temperature:    {temp}')
-    print(f'Humidity:       {humidity}')
-    print(f'Light:          {light}')
+    print(f'Temperature:    {data['Temperature']}')
+    print(f'Humidity:       {data['Humidity']}')
+    print(f'Light:          {data['Light']}')
 
     # Append the data in the spreadsheet, including a timestamp
     try:
-        worksheet.append_row((device_id, datetime.now().isoformat(), temp, humidity, light))
+        (worksheet.append_row((data['ID'], data['Timestamp'], data['Temperature'], data['Humidity'], data['Light'])))
     except: # pylint: disable=bare-except, broad-except
         # Error appending data, most likely because credentials are stale.
         # Null out the worksheet so a login is performed at the top of the loop.
