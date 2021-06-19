@@ -70,9 +70,9 @@ while True:
         continue
 
 
-    print(f'Temperature:    {data['Temperature']}')
-    print(f'Humidity:       {data['Humidity']}')
-    print(f'Light:          {data['Light']}')
+    print(f"Temperature:    {data['Temperature']}")
+    print(f"Humidity:       {data['Humidity']}")
+    print(f"Light:          {data['Light']}")
 
     # Append the data in the spreadsheet, including a timestamp
     try:
