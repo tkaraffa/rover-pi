@@ -2,8 +2,8 @@ import os
 import subprocess
 from dotenv import load_dotenv
 
-import warnings
-warnings.filterwarnings("ignore")
+# import warnings
+# warnings.filterwarnings("ignore")
 
 from vehicle import Vehicle # make this import less ridiculous
 from sensor import Sensor
