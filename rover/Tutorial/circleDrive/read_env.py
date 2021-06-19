@@ -44,12 +44,13 @@ print('Press Ctrl-C to quit.')
 worksheet = None
 
 while True:
+    print(0)
     # Login if necessary.
     if worksheet is None:
         worksheet = login_open_sheet(GDOCS_OAUTH_JSON, GDOCS_SPREADSHEET_NAME)
 
     # Attempt to get sensor reading.
-
+    print(1)
 
     # Skip to the next reading if a valid measurement couldn't be taken.
     # This might happen if the CPU is under a lot of load and the sensor
@@ -64,6 +65,7 @@ while True:
         'Timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
         'Distance': rover.sense_distance()
     }
+    print(2)
     print(data)
 
     if data['Temperature'] is None and data['Humidity'] is None:
