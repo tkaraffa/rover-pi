@@ -71,14 +71,11 @@ while True:
         continue
 
 
-    print(f"Temperature:    {data['Temperature']}")
-    print(f"Humidity:       {data['Humidity']}")
-    print(f"Light:          {data['Light']}")
-
     # Append the data in the spreadsheet, including a timestamp
     try:
-        print(data['ID'], data['Timestamp'], data['Temperature'], data['Humidity'], data['Light'])
-        (worksheet.append_row((data['ID'], data['Timestamp'], data['Temperature'], data['Humidity'], data['Light'])))
+        worksheet.append_row((data['ID'], data['Timestamp'], data['Temperature'], data['Humidity'], data['Light'], data['Distance']))
+        print(f'Wrote a row to {GDOCS_SPREADSHEET_NAME}')
+        sleep(FREQUENCY_SECONDS)
     except: # pylint: disable=bare-except, broad-except
         # Error appending data, most likely because credentials are stale.
         # Null out the worksheet so a login is performed at the top of the loop.
@@ -87,6 +84,5 @@ while True:
         sleep(FREQUENCY_SECONDS)
         continue
 
-    print(f'Wrote a row to {GDOCS_SPREADSHEET_NAME}')
-    sleep(FREQUENCY_SECONDS)
+
 
