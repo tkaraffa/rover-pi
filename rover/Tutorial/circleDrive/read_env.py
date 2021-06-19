@@ -61,7 +61,6 @@ while True:
         'Light': rover.sense_light(),
         'ID': rover.device_id,
         'Timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-        'Distance': rover.DistanceSensor.distance
     }
     print(data)
 
