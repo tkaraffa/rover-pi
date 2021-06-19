@@ -19,8 +19,8 @@ class Sensor:
         return sensor
 
     def sense_light(self):
-        print(LightSensor)
-        print(dir(LightSensor))
+        print(self.LightSensor)
+        print(dir(self.LightSensor))
         try:
             return self.LightSensor.value
         except:
