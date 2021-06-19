@@ -43,6 +43,8 @@ class Vehicle:
         self.DistanceSensor.when_in_range = self.change_direction
 
     def sense_distance(self):
+        print(self.DistanceSensor.distance)
+        print(self.DistanceSensor.value)
         return self.DistanceSensor.distance
 
     def add_travel(self):
