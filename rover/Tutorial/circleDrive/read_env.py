@@ -52,7 +52,6 @@ while True:
     if worksheet is None:
         worksheet = login_open_sheet(GDOCS_OAUTH_JSON, GDOCS_SPREADSHEET_NAME)
 
-    headers = worksheet.
 
     # Attempt to get sensor reading.
 
