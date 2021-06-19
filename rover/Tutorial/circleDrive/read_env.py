@@ -41,12 +41,18 @@ and make sure spreadsheet is shared to the client_email address in the OAuth .js
 print('Logging sensor measurements to\
  {0} every {1} seconds.'.format(GDOCS_SPREADSHEET_NAME, FREQUENCY_SECONDS))
 print('Press Ctrl-C to quit.')
-worksheet = None
+
+worksheet = login_open_sheet(GDOCS_OAUTH_JSON, GDOCS_SPREADSHEET_NAME)
+headers = [value for value in worksheet.get('A1:A100') if value is not None]
+print(headers)
+
 
 while True:
     # Login if necessary.
     if worksheet is None:
         worksheet = login_open_sheet(GDOCS_OAUTH_JSON, GDOCS_SPREADSHEET_NAME)
+
+    headers = worksheet.
 
     # Attempt to get sensor reading.
 
@@ -72,6 +78,7 @@ while True:
 
     # Append the data in the spreadsheet, including a timestamp
     try:
+        row = [data.get(column) for column in headers]
         worksheet.append_row((data['ID'], data['Timestamp'], data['Temperature'], data['Humidity'], data['Light'], data['Distance']))
         print(f'Wrote a row to {GDOCS_SPREADSHEET_NAME}')
         sleep(FREQUENCY_SECONDS)
@@ -83,5 +90,5 @@ while True:
         sleep(FREQUENCY_SECONDS)
         continue
 
-
-
+columns = 
+for value in worksheet.col_values
