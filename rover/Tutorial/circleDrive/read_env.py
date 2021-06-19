@@ -43,7 +43,7 @@ print('Logging sensor measurements to\
 print('Press Ctrl-C to quit.')
 
 worksheet = login_open_sheet(GDOCS_OAUTH_JSON, GDOCS_SPREADSHEET_NAME)
-headers = [value for value in worksheet.get('A1:A100') if value is not None]
+headers = [value for value in worksheet.get('A1:AAA1') if value is not None]
 print(headers)
 
 
