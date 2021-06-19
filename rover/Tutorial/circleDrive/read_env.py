@@ -25,7 +25,6 @@ rover = Rover()
 def login_open_sheet(oauth_key_file, spreadsheet):
     """Connect to Google Docs spreadsheet and return the first worksheet."""
     try:
-        print('here')
         scope =  ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
         credentials = ServiceAccountCredentials.from_json_keyfile_name(oauth_key_file, scope)
         gc = gspread.authorize(credentials)
@@ -64,6 +63,7 @@ while True:
         'Timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
         'Distance': rover.DistanceSensor.distance
     }
+    print(data)
 
     if data['Temperature'] is None and data['Humidity'] is None:
         print('skipping')
