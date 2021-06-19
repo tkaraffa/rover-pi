@@ -53,8 +53,7 @@ while True:
     # Skip to the next reading if a valid measurement couldn't be taken.
     # This might happen if the CPU is under a lot of load and the sensor
     # can't be reliably read (timing is critical to read the sensor).
-    print(rover.sense_distance)
-
+    print(rover.sense_distance())
     data = {
         'Temperature': rover.sense_temperature(),
         'Humidity': rover.sense_humidity(),
