@@ -89,5 +89,3 @@ while True:
         sleep(FREQUENCY_SECONDS)
         continue
 
-columns = 
-for value in worksheet.col_values
