@@ -45,6 +45,7 @@ class Vehicle:
     def sense_distance(self):
         print('distance')
         try:
+            ('distnace.distance')
             return self.DistanceSensor.distance
         except:
             return None
