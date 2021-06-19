@@ -76,6 +76,7 @@ while True:
 
     # Append the data in the spreadsheet, including a timestamp
     try:
+        print(data['ID'], data['Timestamp'], data['Temperature'], data['Humidity'], data['Light'])
         (worksheet.append_row((data['ID'], data['Timestamp'], data['Temperature'], data['Humidity'], data['Light'])))
     except: # pylint: disable=bare-except, broad-except
         # Error appending data, most likely because credentials are stale.
