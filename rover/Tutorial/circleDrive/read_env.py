@@ -43,8 +43,7 @@ print('Logging sensor measurements to\
 print('Press Ctrl-C to quit.')
 
 worksheet = login_open_sheet(GDOCS_OAUTH_JSON, GDOCS_SPREADSHEET_NAME)
-headers = worksheet.get('A1:AAA1')
-print(headers)
+headers = worksheet.get('A1:AAAAA1')[0]
 
 
 while True:
@@ -78,7 +77,7 @@ while True:
     # Append the data in the spreadsheet, including a timestamp
     try:
         row = [data.get(column) for column in headers]
-        worksheet.append_row((data['ID'], data['Timestamp'], data['Temperature'], data['Humidity'], data['Light'], data['Distance']))
+        worksheet.append_row(row)
         print(f'Wrote a row to {GDOCS_SPREADSHEET_NAME}')
         sleep(FREQUENCY_SECONDS)
     except: # pylint: disable=bare-except, broad-except
