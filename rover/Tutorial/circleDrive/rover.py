@@ -24,20 +24,36 @@ class Rover(Vehicle, Sensor, Uploader):
 
         self.device_id = self.read_device_id()
 
+        self.data_functions = {
+            'Temperature': self.sense_temperature,
+            'Humidity': self.sense_humidity,
+            'Light': self.sense_light,
+            'Distance': self.sense_distance
+        }
+
+        self.setup_functions = {
+            'Timestamp': self.timestamp
+        }
+
+        self.function_list = [
+            self.data_functions,
+            self.setup_functions
+        ]
+
+
     def read_device_id(self):
         bash_command = "cat /proc/cpuinfo | grep Serial | cut -d ' ' -f 2"
         byte = subprocess.run(bash_command, shell=True, capture_output=True).stdout
         output = byte.decode("utf-8").strip()
         return output
+
+    @staticmethod
+    def timestamp():
+        return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     
     def create_data(self):
-        
-        data = {
-        'Temperature': self.sense_temperature(),
-        'Humidity': self.sense_humidity(),
-        'Light': self.sense_light(),
-        'ID': self.device_id,
-        'Timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-        'Distance': self.sense_distance()
-        }
+        data = {'ID': self.device_id}
+        for func_dict in self.function_list:
+            for name, func in func_dict.items():
+                data[name] = func()
         return data
