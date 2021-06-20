@@ -10,7 +10,7 @@ from vehicle import Vehicle # make this import less ridiculous
 from sensor import Sensor
 from uploader import Uploader
 
-class Rover(Vehicle, Sensor, Uloader):
+class Rover(Vehicle, Sensor, Uploader):
 
     def __init__(self):
         load_dotenv()
