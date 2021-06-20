@@ -21,6 +21,16 @@ class Rover(Vehicle, Sensor, Uploader):
 
         self.directory_string = os.getenv("DIRECTORY")
         self.file_string = os.getenv("FILE")
+        self.data_functions = {
+            'temperature': self.sense_temperature,
+            'humidity': self.sense_humidity,
+            'light': self.sense_light,
+            'distance': self.sense_distance
+        }
+
+        self.setup_functions = {
+            'timestamp': self.timestamp,
+        }
 
         self.device_id = self.read_device_id()
 
@@ -29,14 +39,18 @@ class Rover(Vehicle, Sensor, Uploader):
         byte = subprocess.run(bash_command, shell=True, capture_output=True).stdout
         output = byte.decode("utf-8").strip()
         return output
+
+    @staticmethod
+    def timestamp():
+        return datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
     
     def create_data(self):
-        data = {
-        'Temperature': self.sense_temperature(),
-        'Humidity': self.sense_humidity(),
-        'Light': self.sense_light(),
-        'ID': self.device_id,
-        'Timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-        'Distance': self.sense_distance()
-        }
+        data = {'device_id': self.device_id}
+        
+        for name, func in self.data_functions.items():
+            data[name] = func()
+            
+        for name, func in self.setup_functions.items():
+            data[name] = func()
+
         return data
