@@ -1,13 +1,18 @@
 import os
-from gpiozero import PWMOutputDevice, DigitalOutputDevice, Button, DistanceSensor
+from gpiozero import (
+    PWMOutputDevice,
+    DigitalOutputDevice,
+    Button,
+    DistanceSensor,
+)
 from time import sleep
 import random
 
 # import warnings
 # warnings.filterwarnings("ignore")
 
-class Vehicle:
 
+class Vehicle:
     def __init__(self):
         super(Vehicle, self).__init__()
         # Values
@@ -24,7 +29,9 @@ class Vehicle:
         self.LeftBackward = DigitalOutputDevice(os.getenv("LEFTBACKWARD"))
         self.LeftSpeedPWM = PWMOutputDevice(os.getenv("LEFTSPEEDPWM"))
         self.RotaryEncoder = Button(os.getenv("ROTARYENCODER"))
-        self.DistanceSensor = DistanceSensor(echo=os.getenv("ECHO"), trigger=os.getenv("TRIG"))
+        self.DistanceSensor = DistanceSensor(
+            echo=os.getenv("ECHO"), trigger=os.getenv("TRIG")
+        )
 
         # default values
         self.record_travel = True
@@ -50,7 +57,9 @@ class Vehicle:
             self.travel += 1
 
     def change_direction(self):
-        choice = random.choice([self.spinLeft, self.spinRight, self.turnLeft, self.turnRight])
+        choice = random.choice(
+            [self.spinLeft, self.spinRight, self.turnLeft, self.turnRight]
+        )
         choice()
 
     def stop(self):
@@ -91,8 +100,8 @@ class Vehicle:
     def decel(self, time=None):
         if not time:
             time = self.decel_time
-        max_speed = int(self.high_speed * self.decel_increment) # 90
-        min_speed = int(self.low_speed * self.decel_increment) # 20 
+        max_speed = int(self.high_speed * self.decel_increment)  # 90
+        min_speed = int(self.low_speed * self.decel_increment)  # 20
         speed_delta = max_speed - min_speed
         for speed in reversed(range(min_speed, max_speed)):
             self.RightSpeedPWM.value = speed / self.decel_increment

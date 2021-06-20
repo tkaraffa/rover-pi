@@ -43,7 +43,11 @@ while True:
     else:
         RightBackward.off()
         Lef
-    speedFlag = float(input("set speed (between 0-1000): "))  # Gets a number from the from the user
+    speedFlag = float(
+        input("set speed (between 0-1000): ")
+    )  # Gets a number from the from the user
     Encoder.when_pressed = lambda: add_distance(rover_distance)
-    RightSpeedPWM.value = speedFlag / 1000  # Sets the duty cycle of the PWM between 0-1
+    RightSpeedPWM.value = (
+        speedFlag / 1000
+    )  # Sets the duty cycle of the PWM between 0-1
     LeftSpeedPWM.value = speedFlag / 1000

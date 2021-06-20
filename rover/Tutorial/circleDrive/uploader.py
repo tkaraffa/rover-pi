@@ -3,36 +3,40 @@ from oauth2client.service_account import ServiceAccountCredentials
 import os
 from dotenv import load_dotenv
 
-class Uploader:
 
+class Uploader:
     def __init__(self):
         super(Uploader, self).__init__()
 
-        self.sheet_name = os.getenv('SPREADSHEET_NAME')
-
+        self.sheet_name = os.getenv("SPREADSHEET_NAME")
 
         self.scope = self.create_scope()
 
         self.credentials_file = os.path.join(
-            os.path.dirname(__file__),
-            os.getenv('AUTH_FILE')
+            os.path.dirname(__file__), os.getenv("AUTH_FILE")
         )
-        self.credentials = self.create_credentials(self.credentials_file, self.scope)
+        self.credentials = self.create_credentials(
+            self.credentials_file, self.scope
+        )
         self.sheet = self.open_sheet(self.sheet_name, self.credentials)
         self.columns = self.read_columns()
 
         self.upload_frequency = 5
 
-
     def create_scope(self, scope=None):
         if scope is None:
-            scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
+            scope = [
+                "https://spreadsheets.google.com/feeds",
+                "https://www.googleapis.com/auth/drive",
+            ]
         return scope
- 
+
     def create_credentials(self, credentials_file=None, scope=None):
         if credentials_file is None:
-            credentials_file = os.getenv('AUTH_FILE')
-        return ServiceAccountCredentials.from_json_keyfile_name(credentials_file, scope)
+            credentials_file = os.getenv("AUTH_FILE")
+        return ServiceAccountCredentials.from_json_keyfile_name(
+            credentials_file, scope
+        )
 
     def open_sheet(self, sheet_name, credentials):
         try:
@@ -42,9 +46,16 @@ class Uploader:
             print(str(ex))
 
     def read_columns(self):
-        headers = self.sheet.get('A1:AAA1')[0]
+        headers = self.sheet.get("A1:AAA1")[0]
         if headers is None:
-            headers = ['Id','Timestamp','Temperature','Humidity','Light','Distance']
+            headers = [
+                "ID",
+                "Timestamp",
+                "Temperature",
+                "Humidity",
+                "Light",
+                "Distance",
+            ]
         return headers
 
     def upload_data(self, data):
