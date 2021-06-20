@@ -17,7 +17,7 @@ class Uploader:
 
         self.credentials_file = os.getenv('AUTH_FILE')
         self.credentials = self.create_credentials(self.credentials_file, self.scope)
-
+        print(self.credentials)
         self.upload_frequency = 5
 
 
