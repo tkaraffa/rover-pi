@@ -13,7 +13,10 @@ class Uploader:
 
         self.scope = self.create_scope()
 
-        self.credentials_file = os.getenv('AUTH_FILE')
+        self.credentials_file = os.path.join(
+            os.path.dirname(__file__),
+            os.getenv('AUTH_FILE')
+        )
         self.credentials = self.create_credentials(self.credentials_file, self.scope)
         self.sheet = self.open_sheet(self.sheet_name, self.credentials)
         self.columns = self.read_columns()
