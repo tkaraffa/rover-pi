@@ -9,7 +9,6 @@ class Uploader:
         super(Uploader, self).__init__()
 
         self.sheet_name = os.getenv('SPREADSHEET_NAME')
-        self.sheet = self.open_sheet(self.sheet_name, self.credentials)
 
         self.columns = self.read_columns()
 
@@ -17,7 +16,8 @@ class Uploader:
 
         self.credentials_file = os.getenv('AUTH_FILE')
         self.credentials = self.create_credentials(self.credentials_file, self.scope)
-        print(self.credentials)
+        self.sheet = self.open_sheet(self.sheet_name, self.credentials)
+
         self.upload_frequency = 5
 
 
