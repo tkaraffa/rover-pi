@@ -21,7 +21,6 @@ class Uploader:
         self.sheet = self.open_sheet(self.sheet_name, self.credentials)
         self.columns = self.read_columns()
 
-
         self.upload_frequency = 5
 
 

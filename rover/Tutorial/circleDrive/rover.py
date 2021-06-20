@@ -48,9 +48,11 @@ class Rover(Vehicle, Sensor, Uploader):
         data = {'device_id': self.device_id}
         
         for name, func in self.data_functions.items():
-            data[name] = func()
-            
+            value = func()
+            data[name] = value
+
         for name, func in self.setup_functions.items():
-            data[name] = func()
+            value = func()
+            data[name] = value
 
         return data
