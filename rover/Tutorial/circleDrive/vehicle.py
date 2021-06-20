@@ -2,9 +2,6 @@ import os
 from gpiozero import PWMOutputDevice, DigitalOutputDevice, Button, DistanceSensor
 from time import sleep
 import random
-from dotenv import load_dotenv
-
-load_dotenv()
 
 # import warnings
 # warnings.filterwarnings("ignore")

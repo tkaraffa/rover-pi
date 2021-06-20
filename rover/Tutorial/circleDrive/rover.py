@@ -1,21 +1,21 @@
 import os
 import subprocess
 from dotenv import load_dotenv
+from datetime import datetime
 
 # import warnings
 # warnings.filterwarnings("ignore")
 
 from vehicle import Vehicle # make this import less ridiculous
 from sensor import Sensor
+from uploader import Uploader
 
-class Rover(Vehicle, Sensor):
-
-    load_dotenv()
+class Rover(Vehicle, Sensor, Uloader):
 
     def __init__(self):
+        load_dotenv()
         super(Rover, self).__init__()
 
-        load_dotenv()
         # this should all get moved to a setup.py or something eventually
         # -------------------------------------------------
 
@@ -30,3 +30,13 @@ class Rover(Vehicle, Sensor):
         output = byte.decode("utf-8").strip()
         return output
     
+    def create_data(self):
+        data = {
+        'Temperature': self.sense_temperature(),
+        'Humidity': self.sense_humidity(),
+        'Light': self.sense_light(),
+        'ID': self.device_id,
+        'Timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+        'Distance': self.sense_distance()
+        }
+        return data

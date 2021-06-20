@@ -15,6 +15,7 @@ GDOCS_OAUTH_JSON = os.path.join(
 )
 # Google Docs spreadsheet name.
 GDOCS_SPREADSHEET_NAME = 'env_data'
+DEFAULT_COLUMNS = ['Id','Timestamp','Temperature','Humidity','Light','Distance']
 
 # How long to wait (in seconds) between measurements.
 FREQUENCY_SECONDS  = 5
@@ -43,7 +44,10 @@ print('Logging sensor measurements to\
 print('Press Ctrl-C to quit.')
 
 worksheet = login_open_sheet(GDOCS_OAUTH_JSON, GDOCS_SPREADSHEET_NAME)
+
 headers = worksheet.get('A1:AAA1')[0]
+if headers is not None:
+    headers = DEFAULT_COLUMNS
 
 
 while True:
