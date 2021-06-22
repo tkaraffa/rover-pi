@@ -36,6 +36,8 @@ class Vehicle:
         # default values
         self.record_travel = True
         self.travel = 0
+        self.clockwise_rotation = 0
+        self.counterclockwise_rotation = 0
         self.accel_increment = 100
         self.decel_increment = 100
         self.accel_time = 5
@@ -55,6 +57,10 @@ class Vehicle:
     def add_travel(self):
         if self.record_travel == True:
             self.travel += 1
+        if self.record_clockwise_rotation == True:
+            self.clockwise_rotation += 1
+        if self.record_counterclockwise_rotation == True:
+            self.counterclockwise_rotation += 1
 
     def change_direction(self):
         choice = random.choice(
