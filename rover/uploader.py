@@ -1,6 +1,7 @@
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import os
+from statistics import median, mean
 from rover_enums import Sheets_Enums
 
 
@@ -82,14 +83,14 @@ class Uploader:
         return column_data
 
     def calculate_average(self, column, array):
-        average = sum(array) / len(array)
+        average = mean(array)
         print(column, 'average', average)
         return average
 
     def calculate_median(self, column, array):
-        middle_index = len(array) // 2
-        median = sorted(array)[middle_index]
-        print(column, 'median', median)
+        middle = median(array)
+        print(column, 'median', middle)
+        return middle
 
 
     def download_data(self):
