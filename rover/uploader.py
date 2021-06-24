@@ -64,7 +64,7 @@ class Uploader:
 
     def upload_data(self, data):
         if self.sheet is None:
-            self.sheet = self.open_sheet(self.sheet_name, self.credentials)
+            self.sheet = self.open_sheet()
         try:
             row = [data.get(column) for column in self.columns]
             self.sheet.append_row(row)
@@ -80,7 +80,7 @@ class Uploader:
 
     def download_data(self):
         if self.sheet is None:
-            self.sheet = self.open_sheet(self.sheet_name, self.credentials)
+            self.sheet = self.open_sheet()
         try:
             data = self.sheet.get_all_records()
             self.calculate_averages(data)
