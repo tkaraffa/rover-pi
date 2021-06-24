@@ -73,7 +73,7 @@ class Uploader:
 
     def calculate_averages(self, data):
         for column in self.columns:
-            if column != "ID" or column != "Timestamp":
+            if column != "ID" and column != "Timestamp":
                 print(column, "average")
                 print(sum([row[column] for row in data]))
     
@@ -83,7 +83,6 @@ class Uploader:
             self.sheet = self.open_sheet()
         try:
             data = self.sheet.get_all_records()
-            print(data)
             self.calculate_averages(data)
         except:
             self.sheet = None
