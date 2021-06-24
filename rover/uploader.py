@@ -50,10 +50,12 @@ class Uploader:
     def open_sheet(self):
         try:
             gc = gspread.authorize(self.credentials)
-            print(gc.open(self.sheet_name).sheet1)
-            return gc.open(self.sheet_name).sheet1
+            print('here')
+            f = gc.open(self.sheet_name).sheet1
+            print("here2")
+            return f
         except Exception as ex:
-            print("here", str(ex))
+            print(str(ex))
 
     def read_columns(self):
         "Try to get columns from reading the sheet - if this returns None, use default values"
