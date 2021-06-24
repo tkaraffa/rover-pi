@@ -73,6 +73,7 @@ class Uploader:
 
     def calculate_averages(self, data):
         for header in self.headers:
+            print(header)
             if header != "ID" or header != "Timestamp":
                 print(header, "average")
                 print(sum([row[header] for row in data]))
