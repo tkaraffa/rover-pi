@@ -36,8 +36,8 @@ class Directories(Enum):
 
 class Sheets_Enums(Enum):
     AUTH_FILE='credentials.json'
-    # SPREADSHEET_NAME='env_data'
-    SPREADSHEET_NAME='community_env_data'
+    SPREADSHEET_NAME='env_data'
+    # SPREADSHEET_NAME='community_env_data'
     DEFAULT_SCOPE=[
                 "https://spreadsheets.google.com/feeds",
                 "https://www.googleapis.com/auth/drive",
