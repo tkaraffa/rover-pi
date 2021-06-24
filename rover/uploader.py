@@ -77,7 +77,8 @@ class Uploader:
                 pass
             else:
                 print(column, "average")
-                print(sum([row[column] for row in data]))
+                print([row for row in data])
+                # print(sum([row[column] for row in data]))
     
 
     def download_data(self):
