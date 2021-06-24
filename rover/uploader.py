@@ -80,3 +80,10 @@ class Uploader:
             return data
         except:
             self.sheet = None
+    
+    def calculate_averages(self, data):
+        for header in self.headers:
+            if header != "ID" or header != "Timestamp":
+                print(header, "average")
+                print(sum([row[header] for row in data]))
+                
