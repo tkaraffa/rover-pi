@@ -35,8 +35,9 @@ class Directories(Enum):
     OUTPUT_FILE='atmosphere-sensor-data.json'
 
 class Sheets_Enums(Enum):
-    AUTH_FILE='auth.json'
-    SPREADSHEET_NAME='env_data'
+    AUTH_FILE='credentials.json'
+    # SPREADSHEET_NAME='env_data'
+    SPREADSHEET_NAME='community_env_data'
     DEFAULT_SCOPE=[
                 "https://spreadsheets.google.com/feeds",
                 "https://www.googleapis.com/auth/drive",
