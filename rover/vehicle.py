@@ -1,10 +1,4 @@
-import os
-from gpiozero import (
-    PWMOutputDevice,
-    DigitalOutputDevice,
-    Button,
-    DistanceSensor,
-)
+from rover.rover_enums import Pins, Constants
 from time import sleep
 import random
 
@@ -15,23 +9,21 @@ import random
 class Vehicle:
     def __init__(self):
         super(Vehicle, self).__init__()
-        # Values
-        self.low_speed = float(os.getenv("LOWSPEED"))
-        self.high_speed = float(os.getenv("HIGHSPEED"))
-        self.turn_time = float(os.getenv("TURNTIME"))
-        self.wheel_diameter = float(os.getenv("WHEELDIAMETER"))
+        # Constant Values
+        self.low_speed = Constants.LOWSPEED.value
+        self.high_speed = Constants.HIGHSPEED.value
+        self.turn_time = Constants.TURNTIME.value
+        self.wheel_diameter = Constants.WHEELDIAMETER.value
 
         # Pins
-        self.RightForward = DigitalOutputDevice(os.getenv("RIGHTFORWARD"))
-        self.RightBackward = DigitalOutputDevice(os.getenv("RIGHTBACKWARD"))
-        self.RightSpeedPWM = PWMOutputDevice(os.getenv("RIGHTSPEEDPWM"))
-        self.LeftForward = DigitalOutputDevice(os.getenv("LEFTFORWARD"))
-        self.LeftBackward = DigitalOutputDevice(os.getenv("LEFTBACKWARD"))
-        self.LeftSpeedPWM = PWMOutputDevice(os.getenv("LEFTSPEEDPWM"))
-        self.RotaryEncoder = Button(os.getenv("ROTARYENCODER"))
-        self.DistanceSensor = DistanceSensor(
-            echo=os.getenv("ECHO"), trigger=os.getenv("TRIG")
-        )
+        self.RightForward = Pins.RIGHTFORWARD.value
+        self.RightBackward = Pins.RIGHTBACKWARD.value
+        self.RightSpeedPWM = Pins.RIGHTSPEEDPWM.value
+        self.LeftForward = Pins.LEFTFORWARD.value
+        self.LeftBackward = Pins.LEFTBACKWARD.value
+        self.LeftSpeedPWM = Pins.LEFTSPEEDPWM.value
+        self.RotaryEncoder = Pins.ROTARYENCODER.value
+        self.DistanceSensor = Pins.DISTANCESENSOR.value
 
         # default values
         self.record_travel = True
@@ -55,6 +47,8 @@ class Vehicle:
             return None
 
     def add_travel(self):
+        """Depending on boolean, either record distance travelled,
+        record clockwise rotation, or record counterclockwise roatation"""
         if self.record_travel == True:
             self.travel += 1
         if self.record_clockwise_rotation == True:
@@ -63,12 +57,16 @@ class Vehicle:
             self.counterclockwise_rotation += 1
 
     def change_direction(self):
+        """Randomly choose a function to avoid an obstacle
+        used for 'when_in_range' method of the distance sensor
+        """
         choice = random.choice(
             [self.spinLeft, self.spinRight, self.turnLeft, self.turnRight]
         )
         choice()
 
     def stop(self):
+        "Stop all movement"
         self.RightForward.off()
         self.LeftForward.off()
         self.RightBackward.off()
@@ -77,6 +75,7 @@ class Vehicle:
         self.LeftSpeedPWM.value = 0
 
     def do_record_travel(function):
+        "Start recording travel"
         def wrapper(self):
             self.record_travel = True
             self.stop()
@@ -85,6 +84,7 @@ class Vehicle:
         return wrapper
 
     def do_not_record_travel(function):
+        "Stop recording travel"
         def wrapper(self):
             self.record_travel = False
             self.stop()

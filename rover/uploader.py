@@ -1,61 +1,70 @@
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import os
-from dotenv import load_dotenv
+from rover.rover_enums import Sheets_Enums, Directories
 
 
 class Uploader:
     def __init__(self):
         super(Uploader, self).__init__()
 
-        self.sheet_name = os.getenv("SPREADSHEET_NAME")
+        # user can pass values to these, or accept defaults as specified in Enums
+        self.sheet_name = self.find_spreadsheet_name()
+        self.scope = self.find_scope()
+        self.credentials_file = self.find_credentials_file()
 
-        self.scope = self.create_scope()
-
-        self.credentials_file = os.path.join(
-            os.path.dirname(__file__), os.getenv("AUTH_FILE")
-        )
+        # Create sheet object, and read columns if available
         self.credentials = self.create_credentials(
             self.credentials_file, self.scope
         )
-        self.sheet = self.open_sheet(self.sheet_name, self.credentials)
+        self.sheet = self.open_sheet()
         self.columns = self.read_columns()
 
+        # default values
         self.upload_frequency = 5
 
-    def create_scope(self, scope=None):
+    @staticmethod
+    def find_spreadsheet_name(spreadsheet_name=None):
+        if spreadsheet_name is None:
+            spreadsheet_name = Sheets_Enums.SPREADSHEET_NAME.value
+        return spreadsheet_name
+
+    @staticmethod
+    def find_credentials_file(credentials_file=None):
+        if credentials_file is None:
+            credentials_file = os.path.join(
+                os.path.dirname(__file__),
+                Sheets_Enums.AUTH_FILE.value
+            )
+        return credentials_file
+
+    @staticmethod
+    def find_scope(scope=None):
         if scope is None:
-            scope = [
-                "https://spreadsheets.google.com/feeds",
-                "https://www.googleapis.com/auth/drive",
-            ]
+            scope = Sheets_Enums.DEFAULT_SCOPE.value
         return scope
 
-    def create_credentials(self, credentials_file=None, scope=None):
-        if credentials_file is None:
-            credentials_file = os.getenv("AUTH_FILE")
+    def create_credentials(self):
         return ServiceAccountCredentials.from_json_keyfile_name(
-            credentials_file, scope
+            self.credentials_file, self.scope
         )
 
-    def open_sheet(self, sheet_name, credentials):
+    def open_sheet(self):
         try:
-            gc = gspread.authorize(credentials)
-            return gc.open(sheet_name).sheet1
+            gc = gspread.authorize(self.credentials)
+            return gc.open(self.sheet_name).sheet1
         except Exception as ex:
             print(str(ex))
 
     def read_columns(self):
+        "Try to get columns from reading the sheet - if this returns None, use default values"
         headers = self.sheet.get("A1:AAA1")[0]
         if headers is None:
-            headers = [
-                "ID",
-                "Timestamp",
-                "Temperature",
-                "Humidity",
-                "Light",
-                "Distance",
-            ]
+            headers = Sheets_Enums.DEFAULT_COLUMNS.value
+            try:
+                self.sheet.append(headers)
+            except:
+                self.sheet = None
         return headers
 
     def upload_data(self, data):

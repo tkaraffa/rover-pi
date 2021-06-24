@@ -1,23 +1,21 @@
-import os
 import subprocess
-from dotenv import load_dotenv
+from rover.rover_enums import  Directories
 from datetime import datetime
 
 # import warnings
 # warnings.filterwarnings("ignore")
 
-from vehicle import Vehicle  # make this import less ridiculous
-from sensor import Sensor
-from uploader import Uploader
+from rover.vehicle import Vehicle  # make this import less ridiculous
+from rover.sensor import Sensor
+from rover.uploader import Uploader
 
 
 class Rover(Vehicle, Sensor, Uploader):
     def __init__(self):
-        load_dotenv()
         super(Rover, self).__init__()
 
-        self.directory_string = os.getenv("DIRECTORY")
-        self.file_string = os.getenv("FILE")
+        self.directory_string = Directories.DATA_DIRECTORY.value
+        self.file_string = Directories.OUTPUT_FILE.value
 
         self.device_id = self.read_device_id()
 
