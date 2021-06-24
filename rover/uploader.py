@@ -1,7 +1,7 @@
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import os
-from rover.rover_enums import Sheets_Enums
+from rover_enums import Sheets_Enums
 
 
 class Uploader:
