@@ -59,10 +59,7 @@ class Uploader:
         headers = self.sheet.get("A1:AAA1")[0]
         if headers is None:
             headers = Sheets_Enums.DEFAULT_COLUMNS.value
-            try:
-                self.sheet.append(headers)
-            except:
-                self.sheet = None
+            self.sheet.append_row(headers)
         return headers
 
     def upload_data(self, data):
