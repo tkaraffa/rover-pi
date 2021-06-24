@@ -1,4 +1,4 @@
-from rover.rover_enums import Constants, Pins
+from rover_enums import Pins
 
 
 class Sensor:

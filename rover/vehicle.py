@@ -1,4 +1,4 @@
-from rover.rover_enums import Pins, Constants
+from rover_enums import Pins, Constants
 from time import sleep
 import random
 
