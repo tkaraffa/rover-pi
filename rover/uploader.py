@@ -53,7 +53,7 @@ class Uploader:
             print(gc.open(self.sheet_name).sheet1)
             return gc.open(self.sheet_name).sheet1
         except Exception as ex:
-            print(str(ex))
+            print("here", str(ex))
 
     def read_columns(self):
         "Try to get columns from reading the sheet - if this returns None, use default values"
