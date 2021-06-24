@@ -70,3 +70,13 @@ class Uploader:
             self.sheet.append_row(row)
         except:
             self.sheet = None
+
+    def download_data(self):
+        if self.sheet is None:
+            self.sheet = self.open_sheet(self.sheet_name, self.credentials)
+        try:
+            data = self.sheet.get_all_values()
+            print(data)
+            return data
+        except:
+            self.sheet = None
