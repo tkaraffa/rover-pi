@@ -77,7 +77,8 @@ class Uploader:
                 pass
             else:
                 print(column, "average")
-                print([row[column] for row in data if row[column] is not ''])
+                column_data = [row[column] for row in data if row[column] is not '']
+                print(sum(column_data) / len(column_data))
                 # print(sum([row[column] for row in data]))
     
 
