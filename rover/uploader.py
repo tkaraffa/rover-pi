@@ -20,6 +20,7 @@ class Uploader:
 
         # default values
         self.upload_frequency = 5
+        self.null_values = Sheets_Enums.NULL_VALUES.value
 
     @staticmethod
     def find_spreadsheet_name(spreadsheet_name=None):
@@ -77,9 +78,8 @@ class Uploader:
                 pass
             else:
                 print(column, "average")
-                column_data = [row[column] for row in data if row[column] is not '']
+                column_data = [row[column] for row in data if row[column] not in self.null_values]
                 print(sum(column_data) / len(column_data))
-                # print(sum([row[column] for row in data]))
     
 
     def download_data(self):

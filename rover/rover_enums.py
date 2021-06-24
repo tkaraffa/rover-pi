@@ -53,3 +53,4 @@ class Sheets_Enums(Enum):
                 "Light",
                 "Distance",
             ]
+    NULL_VALUES = ['', None, 'NA', 'N/A', 'na', 'n/a', '\n', 'None', 'none', 'NULL', 'Null', 'null', False]
