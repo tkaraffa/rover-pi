@@ -50,10 +50,7 @@ class Uploader:
     def open_sheet(self):
         try:
             gc = gspread.authorize(self.credentials)
-            print('here')
-            f = gc.open(self.sheet_name).sheet1
-            print("here2")
-            return f
+            return gc.open(self.sheet_name).sheet1
         except Exception as ex:
             print(str(ex))
 
