@@ -14,9 +14,7 @@ class Uploader:
         self.credentials_file = self.find_credentials_file()
 
         # Create sheet object, and read columns if available
-        self.credentials = self.create_credentials(
-            self.credentials_file, self.scope
-        )
+        self.credentials = self.create_credentials()
         self.sheet = self.open_sheet()
         self.columns = self.read_columns()
 
