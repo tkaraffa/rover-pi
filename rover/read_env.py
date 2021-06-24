@@ -6,6 +6,7 @@ def main():
     while True:
         data = rover.create_data()
         rover.upload_data(data)
+        rover.download_data()
         sleep(rover.upload_frequency)
 
 if __name__=="__main__":
