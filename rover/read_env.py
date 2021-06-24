@@ -1,4 +1,3 @@
-from rover.rover_enums import Pins
 from rover import Rover
 from time import sleep
 
