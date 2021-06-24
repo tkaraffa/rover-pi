@@ -77,14 +77,19 @@ class Uploader:
         column_data = {}
         for column in self.columns:
             if column not in self.non_data_columns:
-                column_data[column] = function(data, column)
+                array = [row[column] for row in data if row[column] not in self.null_values]
+                column_data[column] = function(column, array)
         return column_data
 
-    def calculate_average(self, data, column):
-        array = [row[column] for row in data if row[column] not in self.null_values]
+    def calculate_average(self, column, array):
         average = sum(array) / len(array)
-        print(column, average)
+        print(column, 'average', average)
         return average
+
+    def calculate_median(self, column, array):
+        middle_index = len(array) // 2
+        median = sorted(array)[middle_index]
+        print(column, 'median', median)
 
 
     def download_data(self):
@@ -92,7 +97,8 @@ class Uploader:
             self.sheet = self.open_sheet()
         try:
             data = self.sheet.get_all_records()
-            self.perform_data_calculation(data, self.calculate_average)
+            average = self.perform_data_calculation(data, self.calculate_average)
+            median = self.perform_data_calculation(data, self.calculate_median)
         except:
             self.sheet = None
     
