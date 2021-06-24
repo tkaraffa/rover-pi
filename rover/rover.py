@@ -1,5 +1,5 @@
 import subprocess
-from rover.rover_enums import  Directories
+from rover_enums import  Directories
 from datetime import datetime
 
 # import warnings
