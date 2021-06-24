@@ -10,6 +10,9 @@ from gpiozero import (
     DistanceSensor,
 )
 
+# Update the pins for your own rover
+# Note that the atmosphere sensor uses the board & adafruit_dht libraries; the rest use gpiozero
+
 class Pins(Enum):
     RIGHTBACKWARD=DigitalOutputDevice(5)
     RIGHTFORWARD=DigitalOutputDevice(6)
@@ -36,8 +39,8 @@ class Directories(Enum):
 
 class Sheets_Enums(Enum):
     AUTH_FILE='credentials.json'
-    SPREADSHEET_NAME='env_data'
-    # SPREADSHEET_NAME='community_env_data'
+    # SPREADSHEET_NAME='env_data'
+    SPREADSHEET_NAME='community_env_data'
     DEFAULT_SCOPE=[
                 "https://spreadsheets.google.com/feeds",
                 "https://www.googleapis.com/auth/drive",
