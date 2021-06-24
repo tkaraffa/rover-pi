@@ -54,3 +54,7 @@ class Sheets_Enums(Enum):
                 "Distance",
             ]
     NULL_VALUES = ['', None, 'NA', 'N/A', 'na', 'n/a', '\n', 'None', 'none', 'NULL', 'Null', 'null', False]
+    NON_DATA_COLUMNS=[
+        "ID",
+        "Timestamp",
+    ]

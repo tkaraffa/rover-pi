@@ -21,6 +21,7 @@ class Uploader:
         # default values
         self.upload_frequency = 5
         self.null_values = Sheets_Enums.NULL_VALUES.value
+        self.non_data_columns = Sheets_Enums.NON_DATA_COLUMNS.value
 
     @staticmethod
     def find_spreadsheet_name(spreadsheet_name=None):
@@ -72,22 +73,26 @@ class Uploader:
         except:
             self.sheet = None
 
-    def calculate_averages(self, data):
+    def perform_data_calculation(self, data, function):
+        column_data = {}
         for column in self.columns:
-            if column == "ID" or column == "Timestamp":
-                pass
-            else:
-                print(column, "average")
-                column_data = [row[column] for row in data if row[column] not in self.null_values]
-                print(sum(column_data) / len(column_data))
-    
+            if column not in self.non_data_columns:
+                column_data[column] = function(data, column)
+        return column_data
+
+    def calculate_average(self, data, column):
+        array = [row[column] for row in data if row[column] not in self.null_values]
+        average = sum(array) / len(array)
+        print(column, average)
+        return average
+
 
     def download_data(self):
         if self.sheet is None:
             self.sheet = self.open_sheet()
         try:
             data = self.sheet.get_all_records()
-            self.calculate_averages(data)
+            self.perform_data_calculation(data, self.calculate_average)
         except:
             self.sheet = None
     
