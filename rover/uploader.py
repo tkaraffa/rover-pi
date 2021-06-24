@@ -84,9 +84,9 @@ class Uploader:
             self.sheet = self.open_sheet()
         try:
             data = self.sheet.get_all_records()
+            print(data)
             self.calculate_averages(data)
         except:
-            print('error')
             self.sheet = None
     
             
