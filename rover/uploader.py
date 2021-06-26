@@ -121,8 +121,7 @@ class Uploader:
         for function in self.data_functions:
             for column in self.data_columns:
                 array = [row.get(column) for row in data if row.get(column) not in self.null_values]
-                print(function)
-                print(str(function.__doc__))
+
                 self.calculate(array, function)
 
 
