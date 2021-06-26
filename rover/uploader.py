@@ -99,7 +99,7 @@ class Uploader:
 
     def sheet_wrapper(function):
         "Setup necessary for Google Sheets"
-        def wrapper(self, **kwargs):
+        def wrapper(**kwargs):
             if self.sheet is None:
                 self.sheet = self.open_sheet()
             try:
