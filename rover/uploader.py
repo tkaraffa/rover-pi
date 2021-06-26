@@ -17,7 +17,7 @@ class Uploader:
 
         # Create sheet object, and read columns if available
         self.credentials = self.create_credentials()
-        self.sheet = (self.open_sheet() if self.sheet is None else self.open_sheet())
+        self.sheet = self.open_sheet()
         self.columns = self.read_columns()
 
         # data functions
@@ -94,10 +94,12 @@ class Uploader:
         "median"
         return statistics.median(array)
 
-
+    def check_sheet(self):
+        if self.sheet is None:
+            self.sheet = self.open_sheet()
 
     def upload_data(self, data):
-        self.sheet = self.open_sheet()
+        self.check_sheet()
         try:
             row = [data.get(column) for column in self.columns]
             self.sheet.append_row(row)
@@ -105,7 +107,7 @@ class Uploader:
             self.sheet = None
 
     def download_data(self):
-        self.sheet = self.open_sheet()
+        self.check_sheet()
         try:
             data = self.sheet.get_all_records()
             for function in self.data_functions:
