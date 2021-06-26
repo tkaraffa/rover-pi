@@ -21,7 +21,7 @@ class Uploader:
         self.columns = self.read_columns()
 
         # data functions
-        self.data_functions = [
+        self.calculation_functions = [
             self.calculate_average,
             self.calculate_median
         ]
@@ -106,8 +106,7 @@ class Uploader:
     def download_data(self):
         data = self.sheet.get_all_records()
         aggs = {}
-        print(self.data_functions)
-        for function in self.data_functions:
+        for function in self.calculation_functions:
             f_name = function.__doc__
             for column in self.data_columns:
                 array = [float(row.get(column)) for row in data if row.get(column) not in self.null_values]

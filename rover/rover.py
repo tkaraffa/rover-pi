@@ -19,7 +19,7 @@ class Rover(Vehicle, Sensor, Uploader):
 
         self.device_id = self.read_device_id()
 
-        self.data_functions = {
+        self.sensor_functions = {
             "Temperature": self.sense_temperature,
             "Humidity": self.sense_humidity,
             "Light": self.sense_light,
@@ -28,7 +28,7 @@ class Rover(Vehicle, Sensor, Uploader):
 
         self.setup_functions = {"Timestamp": self.timestamp}
 
-        self.function_list = [self.data_functions, self.setup_functions]
+        self.function_list = [self.sensor_functions, self.setup_functions]
 
     def read_device_id(self):
         bash_command = "cat /proc/cpuinfo | grep Serial | cut -d ' ' -f 2"
