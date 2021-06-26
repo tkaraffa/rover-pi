@@ -110,6 +110,7 @@ class Uploader:
             f_name = self.function.__doc__
             for column in self.data_columns:
                 array = [float(row.get(column)) for row in data if row.get(column) not in self.null_values]
+                print(aggs, f_name, column, array)
                 aggs[f_name] = {column: self.function(array)}
                 print(aggs)
         print(aggs)
