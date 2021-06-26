@@ -61,10 +61,7 @@ class Uploader:
         print('trying to open sheet')
         try:
             gc = gspread.authorize(self.credentials)
-            print("authorized")
-            a = gc.open(self.sheet_name).sheet1
-            print("openend")
-            return a
+            return gc.open(self.sheet_name).sheet1
         except Exception as ex:
             print(str(ex))
             return None
@@ -103,9 +100,13 @@ class Uploader:
 
     def upload_data(self, data):
         self.check_sheet()
+        print("checked")
         try:
+            print('attempting to get data')
             row = [data.get(column) for column in self.columns]
+            print("got data, attemping to append")
             self.sheet.append_row(row)
+            print('appended')
         except:
             self.sheet = None
 
