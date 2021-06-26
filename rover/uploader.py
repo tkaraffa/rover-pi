@@ -103,11 +103,10 @@ class Uploader:
     @sheet_wrapper
     def download_data(self):
         data = self.sheet.get_all_records()
-        print(data)
         aggs = {}
         for function in self.data_functions:
             f_name = function.__doc__
-            print(self.data_columns)
+            print(f_name)
             for column in self.data_columns:
                 array = [float(row.get(column)) for row in data if row.get(column) not in self.null_values]
                 aggs[f_name] = {column: function(array)}
