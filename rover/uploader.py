@@ -58,11 +58,13 @@ class Uploader:
         )
 
     def open_sheet(self):
-        try:
-            gc = gspread.authorize(self.credentials)
-            return gc.open(self.sheet_name).sheet1
-        except Exception as ex:
-            print(str(ex))
+        if self.sheet is None:
+            try:
+                gc = gspread.authorize(self.credentials)
+                return gc.open(self.sheet_name).sheet1
+            except Exception as ex:
+                print(str(ex))
+                return None
 
     def read_columns(self):
         "Try to get columns from reading the sheet - if this returns None, use default values"
@@ -92,25 +94,18 @@ class Uploader:
         "median"
         return statistics.median(array)
 
-    def sheet_wrapper(function):
-        def wrapper(self, **kwargs):
-            if self.sheet is None:
-                self.sheet = self.open_sheet()
-            function(self, **kwargs)
 
-        return wrapper
 
-    @sheet_wrapper
     def upload_data(self, data):
+        self.sheet = self.open_sheet()
         try:
             row = [data.get(column) for column in self.columns]
             self.sheet.append_row(row)
         except:
             self.sheet = None
 
-    @sheet_wrapper
     def download_data(self):
-        print("hello!!!!")
+        self.sheet = self.open_sheet()
         try:
             data = self.sheet.get_all_records()
             for function in self.data_functions:
