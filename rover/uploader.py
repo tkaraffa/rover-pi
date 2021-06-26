@@ -7,6 +7,7 @@ from rover_enums import Sheets_Enums
 
 class Uploader:
     def __init__(self):
+
         super(Uploader, self).__init__()
 
         # user can pass values to these, or accept defaults as specified in Enums
@@ -18,6 +19,12 @@ class Uploader:
         self.credentials = self.create_credentials()
         self.sheet = self.open_sheet()
         self.columns = self.read_columns()
+
+        # data functions
+        self.data_functions = [
+            self.calculate_average,
+            self.calculate_median
+        ]
 
         # default values
         self.upload_frequency = 5
@@ -32,10 +39,10 @@ class Uploader:
 
     @staticmethod
     def find_credentials_file(credentials_file=None):
+
         if credentials_file is None:
             credentials_file = os.path.join(
-                os.path.dirname(__file__),
-                Sheets_Enums.AUTH_FILE.value
+                os.path.dirname(__file__), Sheets_Enums.AUTH_FILE.value
             )
         return credentials_file
 
@@ -65,42 +72,48 @@ class Uploader:
             self.sheet.append_row(headers)
         return headers
 
+    def calculate(self, data, function):
+        column_data = {}
+        for column in self.columns:
+            if column not in self.non_data_columns:
+                array = [
+                    row[column]
+                    for row in data
+                    if row[column] not in self.null_values
+                ]
+                column_data[column] = function(array)
+        return column_data
+
+    def calculate_average(self, array):
+        "average"
+        return statistics.mean(array)
+
+    def calculate_median(self, array):
+        "median"
+        return statistics.median(array)
+
+    def sheet_wrapper(function):
+        def wrapper(self):
+            if self.sheet is None:
+                self.sheet = self.open_sheet()
+            function(self)
+
+        return wrapper
+
+    @sheet_wrapper
     def upload_data(self, data):
-        if self.sheet is None:
-            self.sheet = self.open_sheet()
         try:
             row = [data.get(column) for column in self.columns]
             self.sheet.append_row(row)
         except:
             self.sheet = None
 
-    def perform_data_calculation(self, data, function):
-        column_data = {}
-        for column in self.columns:
-            if column not in self.non_data_columns:
-                array = [row[column] for row in data if row[column] not in self.null_values]
-                column_data[column] = function(column, array)
-        return column_data
-
-    def calculate_average(self, column, array):
-        average = statistics.mean(array)
-        print(column, 'average', average)
-        return average
-
-    def calculate_median(self, column, array):
-        middle = statistics.median(array)
-        print(column, 'median', middle)
-        return middle
-
-
+    @sheet_wrapper
     def download_data(self):
-        if self.sheet is None:
-            self.sheet = self.open_sheet()
         try:
             data = self.sheet.get_all_records()
-            average = self.perform_data_calculation(data, self.calculate_average)
-            median = self.perform_data_calculation(data, self.calculate_median)
+            for function in self.data_functions:
+                print(function.__doc__)
+                self.calculate(data, function)
         except:
             self.sheet = None
-    
-            
