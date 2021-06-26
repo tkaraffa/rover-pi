@@ -103,6 +103,7 @@ class Uploader:
     @sheet_wrapper
     def download_data(self):
         data = self.sheet.get_all_records()
+        print(data)
         aggs = {}
         for function in self.data_functions:
             f_name = function.__doc__
