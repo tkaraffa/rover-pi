@@ -30,6 +30,7 @@ class Uploader:
         self.upload_frequency = 5
         self.null_values = Sheets_Enums.NULL_VALUES.value
         self.non_data_columns = Sheets_Enums.NON_DATA_COLUMNS.value
+        self.data_columns = [column for column in self.columns if column not in self.non_data_columns]
 
     @staticmethod
     def find_spreadsheet_name(spreadsheet_name=None):
@@ -95,10 +96,21 @@ class Uploader:
         "median"
         return statistics.median(array)
 
-    def check_sheet(self):
-        if self.sheet is None:
-            self.sheet = self.open_sheet()
 
+
+    def sheet_wrapper(function):
+        "Setup necessary for Google Sheets"
+        def wrapper(Uploader, **kwargs):
+            if Uploader.sheet is None:
+                Uploader.sheet = Uploader.open_sheet()
+            try:
+                function(Uploader, **kwargs)
+            except:
+                Uploader.sheet = None
+
+        return wrapper
+
+    @sheet_wrapper
     def upload_data(self, data):
         self.check_sheet()
         try:
@@ -107,12 +119,17 @@ class Uploader:
         except:
             self.sheet = None
 
+    @sheet_wrapper
     def download_data(self):
-        self.check_sheet()
-        try:
-            data = self.sheet.get_all_records()
-            for function in self.data_functions:
+
+        data = self.sheet.get_all_records()
+        for function in self.data_functions:
+            for column in self.data_columns:
+                array = [row[column] for row in data]
+                print(function)
                 print(str(function.__doc__))
-                self.calculate(data, function)
-        except:
-            self.sheet = None
+                self.calculate(array, function)
+
+
+
+
