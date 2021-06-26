@@ -116,12 +116,15 @@ class Uploader:
 
     @sheet_wrapper
     def download_data(self):
-
+        print("here1")
         data = self.sheet.get_all_records()
+        print('got data')
         for function in self.data_functions:
+            print("function", function)
             for column in self.data_columns:
+                print("column", column)
                 array = [row.get(column) for row in data if row.get(column) not in self.null_values]
-
+                print('array', array)
                 self.calculate(array, function)
 
 
