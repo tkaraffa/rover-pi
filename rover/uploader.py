@@ -108,12 +108,9 @@ class Uploader:
         aggs = {}
         for function in self.calculation_functions:
             f_name = function.__doc__
-            print(f_name)
             for column in self.numeric_columns:
-                print(column)
                 array = [float(row.get(column)) for row in data if row.get(column) not in self.null_values]
                 aggs[f_name] = {column: function(array)}
-                print(aggs)
         print(aggs)
 
 
