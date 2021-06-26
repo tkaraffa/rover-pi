@@ -74,10 +74,6 @@ class Uploader:
             self.sheet.append_row(headers)
         return headers
 
-    def calculate(self, array, function):
-        print(function, array)
-        return function(array)
-
     def calculate_average(self, array):
         "average"
         return statistics.mean(array)
@@ -111,9 +107,10 @@ class Uploader:
         for function in self.data_functions:
             f_name = function.__doc__
             for column in self.data_columns:
-                print(aggs)
                 array = [float(row.get(column)) for row in data if row.get(column) not in self.null_values]
-                aggs[f_name] = {column: self.calculate(array, function)}
+                print(array)
+                aggs[f_name] = {column: function(array)}
+                print(aggs)
         print(aggs)
 
 
