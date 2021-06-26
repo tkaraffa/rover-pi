@@ -96,7 +96,7 @@ class Uploader:
         def wrapper(self):
             if self.sheet is None:
                 self.sheet = self.open_sheet()
-            function(**kwargs)
+            function(self, **kwargs)
 
         return wrapper
 
