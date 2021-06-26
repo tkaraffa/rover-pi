@@ -58,9 +58,13 @@ class Uploader:
         )
 
     def open_sheet(self):
+        print('trying to open sheet')
         try:
             gc = gspread.authorize(self.credentials)
-            return gc.open(self.sheet_name).sheet1
+            print("authorized")
+            a = gc.open(self.sheet_name).sheet1
+            print("openend")
+            return a
         except Exception as ex:
             print(str(ex))
             return None
