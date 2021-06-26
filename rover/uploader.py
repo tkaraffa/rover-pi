@@ -106,8 +106,8 @@ class Uploader:
     def download_data(self):
         data = self.sheet.get_all_records()
         aggs = {}
-        for self.function in self.data_functions:
-            f_name = self.function.__doc__
+        for function in self.data_functions:
+            f_name = function.__doc__
             for column in self.data_columns:
                 array = [float(row.get(column)) for row in data if row.get(column) not in self.null_values]
                 print(aggs, f_name, column, array)
