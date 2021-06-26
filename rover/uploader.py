@@ -82,7 +82,9 @@ class Uploader:
                     for row in data
                     if row[column] not in self.null_values
                 ]
+                print(array[:10], "...")
                 column_data[column] = function(array)
+        print(column_data)
         return column_data
 
     def calculate_average(self, array):
@@ -100,9 +102,7 @@ class Uploader:
     def upload_data(self, data):
         self.check_sheet()
         try:
-            print('attempting to get data')
             row = [data.get(column) for column in self.columns]
-            print(row)
             self.sheet.append_row(row)
         except:
             self.sheet = None
@@ -112,7 +112,7 @@ class Uploader:
         try:
             data = self.sheet.get_all_records()
             for function in self.data_functions:
-                print(function.__doc__)
+                print(str(function.__doc__))
                 self.calculate(data, function)
         except:
             self.sheet = None
