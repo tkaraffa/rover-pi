@@ -110,6 +110,7 @@ class Uploader:
 
     @sheet_wrapper
     def download_data(self):
+        print("hello!!!!")
         try:
             data = self.sheet.get_all_records()
             for function in self.data_functions:
