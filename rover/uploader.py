@@ -74,11 +74,13 @@ class Uploader:
             self.sheet.append_row(headers)
         return headers
 
-    def calculate_average(self, array):
+    @staticmethod
+    def calculate_average(array):
         """average"""
         return statistics.mean(array)
 
-    def calculate_median(self, array):
+    @staticmethod
+    def calculate_median(array):
         """median"""
         return statistics.median(array)
 
@@ -105,9 +107,10 @@ class Uploader:
         data = self.sheet.get_all_records()
         aggs = {}
         for function in self.data_functions:
+            f_name = function.__doc__
             for column in self.data_columns:
                 array = [float(row.get(column)) for row in data if row.get(column) not in self.null_values]
-                print({column: function(array)})
+                aggs[f_name] = {column: function(array)}
                 print(aggs)
         print(aggs)
 
