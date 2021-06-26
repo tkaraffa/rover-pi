@@ -74,19 +74,8 @@ class Uploader:
             self.sheet.append_row(headers)
         return headers
 
-    def calculate(self, data, function):
-        column_data = {}
-        for column in self.columns:
-            if column not in self.non_data_columns:
-                array = [
-                    row[column]
-                    for row in data
-                    if row[column] not in self.null_values
-                ]
-                print(array[:10], "...")
-                column_data[column] = function(array)
-        print(column_data)
-        return column_data
+    def calculate(self, array, function):
+        return function(array)
 
     def calculate_average(self, array):
         "average"
@@ -116,16 +105,14 @@ class Uploader:
 
     @sheet_wrapper
     def download_data(self):
-        print("here1")
         data = self.sheet.get_all_records()
-        print('got data')
+        aggs = {}
         for function in self.data_functions:
-            print("function", function)
+            f_name = function.__doc__
             for column in self.data_columns:
-                print("column", column)
                 array = [row.get(column) for row in data if row.get(column) not in self.null_values]
-                print('array', array)
-                self.calculate(array, function)
+                aggs[f_name] = {column: self.calculate(array, function)}
+        print(aggs)
 
 
 
