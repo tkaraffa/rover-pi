@@ -17,7 +17,7 @@ class Uploader:
 
         # Create sheet object, and read columns if available
         self.credentials = self.create_credentials()
-        self.sheet = self.open_sheet()
+        self.sheet = (self.open_sheet() if self.sheet is None else self.open_sheet())
         self.columns = self.read_columns()
 
         # data functions
