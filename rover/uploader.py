@@ -93,10 +93,10 @@ class Uploader:
         return statistics.median(array)
 
     def sheet_wrapper(function):
-        def wrapper(self):
+        def wrapper(self, **kwargs):
             if self.sheet is None:
                 self.sheet = self.open_sheet()
-            function(self)
+            function(self, **kwargs)
 
         return wrapper
 
