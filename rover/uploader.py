@@ -105,12 +105,12 @@ class Uploader:
     @sheet_wrapper
     def download_data(self):
         data = self.sheet.get_all_records()
-        aggs = {}
+        aggs = {{}}
         for function in self.calculation_functions:
             f_name = function.__doc__
             for column in self.numeric_columns:
                 array = [float(row.get(column)) for row in data if row.get(column) not in self.null_values]
-                aggs[f_name] = {column: function(array)}
+                aggs[f_name][column] = function(array)
         print(aggs)
 
 
