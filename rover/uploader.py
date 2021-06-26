@@ -112,12 +112,8 @@ class Uploader:
 
     @sheet_wrapper
     def upload_data(self, data):
-        self.check_sheet()
-        try:
-            row = [data.get(column) for column in self.columns]
-            self.sheet.append_row(row)
-        except:
-            self.sheet = None
+        row = [data.get(column) for column in self.columns]
+        self.sheet.append_row(row)
 
     @sheet_wrapper
     def download_data(self):
@@ -125,7 +121,7 @@ class Uploader:
         data = self.sheet.get_all_records()
         for function in self.data_functions:
             for column in self.data_columns:
-                array = [row[column] for row in data]
+                array = [row.get(column) for row in data if row.get(column) not in self.null_values]
                 print(function)
                 print(str(function.__doc__))
                 self.calculate(array, function)
