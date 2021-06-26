@@ -97,7 +97,7 @@ class Uploader:
         return statistics.median(array)
 
 
-
+    @staticmethod
     def sheet_wrapper(function):
         "Setup necessary for Google Sheets"
         def wrapper(self, **kwargs):
