@@ -30,7 +30,7 @@ class Uploader:
         self.upload_frequency = 5
         self.null_values = Sheets_Enums.NULL_VALUES.value
         self.non_data_columns = Sheets_Enums.NON_DATA_COLUMNS.value
-        self.data_columns = [column for column in self.columns if column not in self.non_data_columns]
+        self.numeric_columns = [column for column in self.columns if column not in self.non_data_columns]
 
     @staticmethod
     def find_spreadsheet_name(spreadsheet_name=None):
@@ -108,7 +108,9 @@ class Uploader:
         aggs = {}
         for function in self.calculation_functions:
             f_name = function.__doc__
-            for column in self.data_columns:
+            print(f_name)
+            for column in self.numeric_columns:
+                print(column)
                 array = [float(row.get(column)) for row in data if row.get(column) not in self.null_values]
                 aggs[f_name] = {column: self.function(array)}
                 print(aggs)
