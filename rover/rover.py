@@ -8,9 +8,9 @@ from datetime import datetime
 # import warnings
 # warnings.filterwarnings("ignore")
 
-from rover.vehicle import Vehicle  # make this import less ridiculous
-from rover.sensor import Sensor
-from rover.uploader import Uploader
+from vehicle import Vehicle  # make this import less ridiculous
+from sensor import Sensor
+from uploader import Uploader
 
 
 class Rover(Vehicle, Sensor, Uploader):
