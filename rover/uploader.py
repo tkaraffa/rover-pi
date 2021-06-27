@@ -44,6 +44,7 @@ class Uploader:
             filename = default
         else:
             lookup = f"{Path.home()}/rover-pi/config/{filename}"
+            print(lookup)
             files = glob.glob(lookup, recursive=True)
             if files is None:
                 files = default
