@@ -21,7 +21,7 @@ class Uploader:
         self.scope = self.find_scope()
         self.credentials_file = self.find_file(
             default=Sheets_Enums.AUTH_FILE.value,
-            filname="credentials.json")
+            filename="credentials.json")
         # Create sheet object, and read columns if available
         self.credentials = self.create_credentials()
         self.sheet = self.open_sheet()
