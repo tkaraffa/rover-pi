@@ -7,7 +7,7 @@ import os
 import statistics
 import json
 from datetime import datetime
-from enums.uploader_enums import Sheets_Enums
+from config.uploader_enums import Sheets_Enums
 
 
 class Uploader:

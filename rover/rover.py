@@ -2,15 +2,15 @@ import sys
 sys.path.append("/home/pi/rover-pi")
 
 import subprocess
-from enums.rover_enums import  Directories
+from config.rover_enums import  Directories
 from datetime import datetime
 
 # import warnings
 # warnings.filterwarnings("ignore")
 
-from vehicle import Vehicle  # make this import less ridiculous
-from sensor import Sensor
-from uploader import Uploader
+from rover.vehicle import Vehicle  # make this import less ridiculous
+from rover.sensor import Sensor
+from rover.uploader import Uploader
 
 
 class Rover(Vehicle, Sensor, Uploader):
