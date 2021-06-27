@@ -27,10 +27,10 @@ class Uploader:
         self.columns = self.read_columns()
 
         # data functions
-        self.calculation_functions = [
-            self.calculate_average,
-            self.calculate_median
-        ]
+        self.calculation_functions = {
+            'average': self.calculate_average,
+            'median': self.calculate_median
+        }
 
         # default values
         self.upload_frequency = 5
@@ -108,22 +108,27 @@ class Uploader:
             print(str(e))
             self.sheet = None
 
-    def download_data(self):
+    def download_data(self, aggregations=None):
         self.check_sheet()
         try:
             data = self.sheet.get_all_records()
             last_record = data[-1]
-            aggs = {
+            aggregated_data = {
                 "reading_timestamp": datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
                 "last_record": last_record,
             }
-            for function in self.calculation_functions:
-                f_name = function.__doc__
-                aggs[f_name] = {}
+
+            if aggregations is None:
+                aggregation_functions = self.calculation_functions
+            else:
+                aggregation_functions = {func.lower(): self.calculation_functions[func.lower()] for func in aggregations}
+
+            for f_name, function in aggregation_functions.items():
+                aggregated_data[f_name] = {}
                 for column in self.numeric_columns:
                     array = [float(row.get(column)) for row in data if row.get(column) not in self.null_values]
-                    aggs[f_name][column] = function(array)
-            return aggs
+                    aggregated_data[f_name][column] = function(array)
+            return aggregated_data
         except Exception as e:
             print(str(e))
             self.sheet = None

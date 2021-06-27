@@ -34,10 +34,11 @@ class Server(Uploader):
         def hello(name):
             return render_template('page.html', name=name)
 
-        @self.app.route('/data')
-        def data():
+        @self.app.route('/data/<aggs>')
+        def data(aggs):
             templateData = {
-                'data': json.dumps(self.download_data(), indent=2),
+                'data': json.dumps(self.download_data(aggs), indent=2),
+                'agg': aggs
             }
             return render_template('data.html', **templateData)
 
