@@ -42,7 +42,7 @@ class Server(Uploader):
             data = self.download_data(aggs)
             id_data = self.download_id_column_values()
             count = len(id_data)
-            unique_ids = len(set(id_data)),
+            unique_ids = len(id_data),
             last_record = self.download_most_recent_record()
 
             templateData = {
