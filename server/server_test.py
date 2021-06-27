@@ -7,8 +7,22 @@ from datetime import datetime
 
 if __name__ == "__main__":
     uploader = Uploader()
-    data = uploader.download_data()
-    print(data)
+
+    def download_data(Uploader):
+        data = Uploader.sheet.get_all_records()
+        aggs = {
+            "reading_timestamp": datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
+        }
+        for function in Uploader.calculation_functions:
+            f_name = function.__doc__
+            aggs[f_name] = {}
+            for column in Uploader.numeric_columns:
+                array = [float(row.get(column)) for row in data if row.get(column) not in Uploader.null_values]
+                aggs[f_name][column] = function(array)
+        return aggs
+
+
+    data = download_data(uploader)
     app = Flask(__name__)
     debug = True
     host = Flask_Enums.HOST.value
