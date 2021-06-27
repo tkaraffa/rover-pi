@@ -32,6 +32,7 @@ class Uploader:
             "average": self.calculate_average,
             "median": self.calculate_median,
             "mode": self.calculate_mode,
+            "standard deviation": self.calculate_stdev,
         }
 
         # default values
@@ -104,6 +105,11 @@ class Uploader:
     def calculate_mode(array):
         """mode"""
         return statistics.mode(array)
+
+    @staticmethod
+    def calculate_stdev(array):
+        """standard deviation"""
+        return statistics.stdev(array)
 
     def check_sheet(self):
         if self.sheet is None:

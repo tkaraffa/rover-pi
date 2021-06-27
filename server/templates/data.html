@@ -25,10 +25,12 @@
 
 		{% for button in buttons %}
 			{% if button not in aggs %}
-				<button>{{ button.title() }}</button>
+				<a href="/data/{{ button }}" class="button">{{ button.title() }}</a>
+			{% else %}
+				<a href="/data" class="highlighted_button" style="font-weight:bold;">{{ button.title() }}</a>
 			{% endif %}
+			<br><br>
 		{% endfor %}
-		<br>
 
 		<h1>
 			{% for item in data %}
