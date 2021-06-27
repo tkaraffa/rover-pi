@@ -38,8 +38,7 @@ class Server(Uploader):
         @self.app.route('/data')
         def data():
             templateData = {
-                'data': 5,
-                # 'data': str(self.download_data()),
+                'data': str(self.download_data()),
             }
             return render_template('data.html', **templateData)
 
