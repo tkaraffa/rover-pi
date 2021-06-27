@@ -94,36 +94,37 @@ class Uploader:
         """median"""
         return statistics.median(array)
 
+    def check_sheet(self):
+        if self.sheet is None:
+            self.sheet = self.open_sheet()
 
-    def sheet_wrapper(function):
-        "Setup necessary for Google Sheets"
-        def wrapper(self,*args):
-            if self.sheet is None:
-                self.sheet = self.open_sheet()
-            try:
-                function(self, *args)
-            except Exception as e:
-                print(str(e))
-                self.sheet = None
-
-        return wrapper
 
     def upload_data(self, data):
-        row = [data.get(column) for column in self.columns]
-        self.sheet.append_row(row)
+        self.check_sheet()
+        try:
+            row = [data.get(column) for column in self.columns]
+            self.sheet.append_row(row)
+        except Exception as e:
+            print(str(e))
+            self.sheet = None
 
     def download_data(self):
-        data = self.sheet.get_all_records()
-        aggs = {
-            "reading_timestamp": datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
-        }
-        for function in self.calculation_functions:
-            f_name = function.__doc__
-            aggs[f_name] = {}
-            for column in self.numeric_columns:
-                array = [float(row.get(column)) for row in data if row.get(column) not in self.null_values]
-                aggs[f_name][column] = function(array)
-        return aggs
+        self.check_sheet()
+        try:
+            data = self.sheet.get_all_records()
+            aggs = {
+                "reading_timestamp": datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
+            }
+            for function in self.calculation_functions:
+                f_name = function.__doc__
+                aggs[f_name] = {}
+                for column in self.numeric_columns:
+                    array = [float(row.get(column)) for row in data if row.get(column) not in self.null_values]
+                    aggs[f_name][column] = function(array)
+            return aggs
+        except Exception as e:
+            print(str(e))
+            self.sheet = None
 
 
 
