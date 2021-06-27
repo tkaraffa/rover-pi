@@ -16,6 +16,8 @@ class Server(Uploader):
         self.debug = True
         self.host = Flask_Enums.HOST.value
 
+        self.app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+
 
         @self.app.route('/')
         def index():
@@ -36,8 +38,11 @@ class Server(Uploader):
 
         @self.app.route('/data/<aggs>')
         def data(aggs):
+            aggs = aggs.split(",")
+            data = self.download_data(aggs)
+
             templateData = {
-                'data': json.dumps(self.download_data([aggs]), indent=2),
+                'data': data,
                 'agg': aggs
             }
             return render_template('data.html', **templateData)

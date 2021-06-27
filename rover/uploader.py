@@ -114,15 +114,12 @@ class Uploader:
             data = self.sheet.get_all_records()
             last_record = data[-1]
             aggregated_data = {
-                "reading_timestamp": datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
-                "last_record": last_record,
             }
 
             if aggregations is None:
                 aggregation_functions = self.calculation_functions
             else:
                 aggregation_functions = {func.lower(): self.calculation_functions[func.lower()] for func in aggregations}
-            print('aggs',aggregations)
             for f_name, function in aggregation_functions.items():
                 aggregated_data[f_name] = {}
                 for column in self.numeric_columns:
