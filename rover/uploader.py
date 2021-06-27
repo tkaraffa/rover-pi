@@ -42,12 +42,12 @@ class Uploader:
     @staticmethod
     def find_file(default, filename=None):
         if filename is None:
-            filename = [default]
+            files = [default]
         else:
             files = glob.glob("/home/pi/roverpi/**/credentials.json")
             if len(files) != 1:
                 print("Found more than one credentials file, using the first.")
-        return filename[0]
+        return files[0]
 
     @staticmethod
     def find_spreadsheet_name(spreadsheet_name=None):
