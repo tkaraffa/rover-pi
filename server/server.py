@@ -44,6 +44,6 @@ class Server(Uploader):
         self.app.run(debug=self.debug, host=self.host)
 
     def download_data(self):
-        return super().download_data()
+        return super(Server, self).download_data()
 
     
