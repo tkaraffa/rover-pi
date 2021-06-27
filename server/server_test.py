@@ -22,8 +22,8 @@ if __name__ == "__main__":
         return aggs
 
 
-    data = download_data(uploader)
-    print(data)
+    u = download_data(uploader)
+    print(u)
     app = Flask(__name__)
     debug = True
     host = Flask_Enums.HOST.value
@@ -48,7 +48,7 @@ if __name__ == "__main__":
     @app.route('/data')
     def data():
         templateData = {
-            'data': str(data),
+            'data': u,
         }
         return render_template('data.html', **templateData)
 
