@@ -7,7 +7,7 @@ import os
 import statistics
 import json
 from datetime import datetime
-from rover.rover_enums import Sheets_Enums
+from rover.uploader_enums import Sheets_Enums
 
 
 class Uploader:
