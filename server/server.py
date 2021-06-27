@@ -40,6 +40,10 @@ class Server(Uploader):
             if aggs is not None:
                 aggs = aggs.split(",")
                 data = self.download_data(aggs)
+            else:
+                data = []
+                aggs = []
+
 
             id_data = self.download_id_column_values()
             count = len(id_data)
@@ -52,6 +56,8 @@ class Server(Uploader):
                 'unique_ids': unique_ids,
                 'sheet': self.sheet_name,
                 'last_record': last_record,
+                'buttons': self.calculation_functions,
+                'aggs': aggs,
             }
             return templateData
 

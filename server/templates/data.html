@@ -17,6 +17,19 @@
 		<h2>There are {{ unique_ids }} distinct rovers providing data.</h2>
 		{% endif %}
 
+		<h1>The most recently uploaded is as follows:</h1>
+		{% for item in last_record %}
+			<li>{{ item }} : {{last_record[item]}}</li>
+		{% endfor %}
+		<br>
+
+		{% for button in buttons %}
+			{% if button not in aggs %}
+				<button>{{ button.title() }}</button>
+			{% endif %}
+		{% endfor %}
+		<br>
+
 		<h1>
 			{% for item in data %}
 				<h2>{{ item }}</h2>
@@ -26,9 +39,7 @@
 			<br>
 			{% endfor %}
 		</h1>
-		<h1>The most recently uploaded is as follows:</h1>
-		{% for item in last_record %}
-			<li>{{ item }} : {{last_record[item]}}</li>
-		{% endfor %}
+		<br>
+
 	</body>
 </html>
