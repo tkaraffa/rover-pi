@@ -108,7 +108,9 @@ class Uploader:
     @sheet_wrapper
     def download_data(self):
         data = self.sheet.get_all_records()
-        aggs = {"reading_timestamp": datetime.now().strftime("%Y%m%d:%H%M%S")}
+        aggs = {
+            "reading_timestamp": datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
+            "device_id": self.device_id}
         for function in self.calculation_functions:
             f_name = function.__doc__
             aggs[f_name] = {}
