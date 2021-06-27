@@ -40,10 +40,14 @@ class Server(Uploader):
         def data(aggs):
             aggs = aggs.split(",")
             data = self.download_data(aggs)
+            id_data = self.sheet.download_id_column_values()
+            count = len(id_data) - 1
+            unique_ids = len(set(id_data))
 
             templateData = {
                 'data': data,
-                'count': len(data),
+                'count': count,
+                'unique': unique_ids,
                 'sheet': self.sheet_name,
             }
             return render_template('data.html', **templateData)

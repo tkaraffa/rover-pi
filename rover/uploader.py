@@ -136,6 +136,15 @@ class Uploader:
             print(str(e))
             self.sheet = None
 
+    def download_id_column_values(self, id_column='ID'):
+        self.check_sheet()
+        try:
+            cell = self.sheet.find(id_column)
+            column_number = cell.column
+            return self.sheet.col_values(column_number)
+        except Exception as e:
+            print(str(e))
+            self.sheet = None
 
 
 
