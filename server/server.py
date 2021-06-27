@@ -1,6 +1,6 @@
 import sys
 sys.path.append("../")
-from uploader import Uploader
+from rover.uploader import Uploader
 
 class Server(Uploader):
     pass
