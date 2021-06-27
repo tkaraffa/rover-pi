@@ -36,13 +36,14 @@ class Server(Uploader):
         def hello(name):
             return render_template('page.html', name=name)
 
-        @self.app.route('/data/<aggs>')
-        def data(aggs):
-            aggs = aggs.split(",")
-            data = self.download_data(aggs)
+        def create_data_for_pages(aggs=None):
+            if aggs is not None:
+                aggs = aggs.split(",")
+                data = self.download_data(aggs)
+
             id_data = self.download_id_column_values()
             count = len(id_data)
-            unique_ids = len(id_data),
+            unique_ids = len(set(id_data))
             last_record = self.download_most_recent_record()
 
             templateData = {
@@ -52,6 +53,16 @@ class Server(Uploader):
                 'sheet': self.sheet_name,
                 'last_record': last_record,
             }
+            return templateData
+
+        @self.app.route('/data')
+        def data_home():
+            templateData = create_data_for_pages()
+            return render_template('data.html', **templateData)
+
+        @self.app.route('/data/<aggs>')
+        def data(aggs):
+            templateData = create_data_for_pages(aggs)
             return render_template('data.html', **templateData)
 
     def run(self):

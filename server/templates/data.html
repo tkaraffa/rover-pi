@@ -4,8 +4,19 @@
 	</head>
 	<body>
 		<h1>Here's some data</h1>
+
+		{% if count == 1 %}
+		<h2>There is {{ count }} record in {{ sheet }}.</h2>
+		{% else %}
 		<h2>There are {{ count }} records in {{ sheet }}.</h2>
+		{% endif %}
+
+		{% if unique_ids == 1 %}
+		<h2>There is {{ unique_ids }} distinct rover providing data.</h2>
+		{% else %}
 		<h2>There are {{ unique_ids }} distinct rovers providing data.</h2>
+		{% endif %}
+
 		<h1>
 			{% for item in data %}
 				<h2>{{ item }}</h2>

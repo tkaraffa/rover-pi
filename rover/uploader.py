@@ -1,4 +1,5 @@
 import sys
+
 sys.path.append("/home/pi/rover-pi")
 
 import gspread
@@ -19,8 +20,8 @@ class Uploader:
         self.sheet_name = self.find_spreadsheet_name()
         self.scope = self.find_scope()
         self.credentials_file = self.find_file(
-            default=Sheets_Enums.AUTH_FILE.value,
-            filename="credentials.json")
+            default=Sheets_Enums.AUTH_FILE.value, filename="credentials.json"
+        )
         # Create sheet object, and read columns if available
         self.credentials = self.create_credentials()
         self.sheet = self.open_sheet()
@@ -28,16 +29,20 @@ class Uploader:
 
         # data functions
         self.calculation_functions = {
-            'average': self.calculate_average,
-            'median': self.calculate_median,
-            'mode': self.calculate_mode
+            "average": self.calculate_average,
+            "median": self.calculate_median,
+            "mode": self.calculate_mode,
         }
 
         # default values
         self.upload_frequency = 5
         self.null_values = Sheets_Enums.NULL_VALUES.value
         self.non_data_columns = Sheets_Enums.NON_DATA_COLUMNS.value
-        self.numeric_columns = [column for column in self.columns if column not in self.non_data_columns]
+        self.numeric_columns = [
+            column
+            for column in self.columns
+            if column not in self.non_data_columns
+        ]
 
     @staticmethod
     def find_file(default, filename=None):
@@ -104,7 +109,6 @@ class Uploader:
         if self.sheet is None:
             self.sheet = self.open_sheet()
 
-
     def upload_data(self, data):
         self.check_sheet()
         try:
@@ -118,25 +122,31 @@ class Uploader:
         self.check_sheet()
         try:
             data = self.sheet.get_all_records()
-            last_record = data[-1]
-            aggregated_data = {
-            }
+            aggregated_data = {}
 
             if aggregations is None:
                 aggregation_functions = self.calculation_functions
             else:
-                aggregation_functions = {func.lower(): self.calculation_functions[func.lower()] for func in aggregations if func}
+                aggregation_functions = {
+                    func.lower(): self.calculation_functions[func.lower()]
+                    for func in aggregations
+                    if func
+                }
             for f_name, function in aggregation_functions.items():
                 aggregated_data[f_name] = {}
                 for column in self.numeric_columns:
-                    array = [float(row.get(column)) for row in data if row.get(column) not in self.null_values]
+                    array = [
+                        float(row.get(column))
+                        for row in data
+                        if row.get(column) not in self.null_values
+                    ]
                     aggregated_data[f_name][column] = function(array)
             return aggregated_data
         except Exception as e:
             print(str(e))
             self.sheet = None
 
-    def download_id_column_values(self, id_column='ID'):
+    def download_id_column_values(self, id_column="ID"):
         self.check_sheet()
         try:
             cell = self.sheet.find(id_column)
@@ -154,5 +164,3 @@ class Uploader:
         except Exception as e:
             print(str(e))
             self.sheet = None
-
-
