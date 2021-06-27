@@ -43,7 +43,8 @@ class Server(Uploader):
 
             templateData = {
                 'data': data,
-                'agg': aggs
+                'count': len(data),
+                'sheet': self.sheet_name,
             }
             return render_template('data.html', **templateData)
 
