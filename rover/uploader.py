@@ -89,11 +89,11 @@ class Uploader:
 
     def sheet_wrapper(function):
         "Setup necessary for Google Sheets"
-        def wrapper(self,*kwargs):
+        def wrapper(self,**kwargs):
             if self.sheet is None:
                 self.sheet = self.open_sheet()
             try:
-                function(self, *kwargs)
+                function(self, **kwargs)
             except Exception as e:
                 print(str(e))
                 self.sheet = None
@@ -110,7 +110,7 @@ class Uploader:
         data = self.sheet.get_all_records()
         aggs = {
             "reading_timestamp": datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
-            "device_id": self.device_id}
+        }
         for function in self.calculation_functions:
             f_name = function.__doc__
             aggs[f_name] = {}
