@@ -23,6 +23,7 @@ if __name__ == "__main__":
 
 
     data = download_data(uploader)
+    print(data)
     app = Flask(__name__)
     debug = True
     host = Flask_Enums.HOST.value
