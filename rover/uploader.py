@@ -3,9 +3,7 @@ sys.path.append("/home/pi/rover-pi")
 
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
-import os
 import statistics
-import json
 from datetime import datetime
 from config.uploader_enums import Sheets_Enums
 import glob
@@ -49,7 +47,6 @@ class Uploader:
                 files = default
             elif len(files) > 1:
                 print("Found more than one credentials file, using the first.")
-        print(files)
         return files[0]
 
     @staticmethod
@@ -126,7 +123,6 @@ class Uploader:
             for column in self.numeric_columns:
                 array = [float(row.get(column)) for row in data if row.get(column) not in self.null_values]
                 aggs[f_name][column] = function(array)
-        print(json.dumps(aggs, indent=2))
         return aggs
 
 

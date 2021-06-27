@@ -10,6 +10,9 @@ from config.uploader_enums import Flask_Enums
 class Server(Uploader):
     def __init__(self):
         super(Server, self).__init__()
+
+        print('data', self.download_data())
+
         self.app = Flask(__name__)
 
         self.debug = True
@@ -32,5 +35,15 @@ class Server(Uploader):
         def hello(name):
             return render_template('page.html', name=name)
 
+        @self.app.route('/data')
+        def data():
+            templateData = {
+                'data': 5,
+                # 'data': str(self.download_data()),
+            }
+            return render_template('data.html', **templateData)
+
     def run(self):
         self.app.run(debug=self.debug, host=self.host)
+
+    
