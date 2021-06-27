@@ -1,4 +1,7 @@
-from rover import Rover
+import sys
+sys.path.append("/home/pi/rover-pi")
+
+from rover.rover import Rover
 from time import sleep
 
 def main():

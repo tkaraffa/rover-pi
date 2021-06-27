@@ -1,4 +1,7 @@
-from rover_enums import Pins
+import sys
+sys.path.append("/home/pi/rover-pi")
+
+from rover.rover_enums import Pins
 
 
 class Sensor:

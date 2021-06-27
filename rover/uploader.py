@@ -1,10 +1,13 @@
+import sys
+sys.path.append("/home/pi/rover-pi")
+
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import os
 import statistics
 import json
 from datetime import datetime
-from rover_enums import Sheets_Enums
+from rover.rover_enums import Sheets_Enums
 
 
 class Uploader:
