@@ -1,4 +1,4 @@
-from rover.uploader import Uploader
+from uploader import Uploader
 
 class Server(Uploader):
     pass
