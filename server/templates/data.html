@@ -6,8 +6,12 @@
 		<h1>Here's some data</h1>
 		<h1>
 			{% for item in data %}
-			{{ item }}
-			{{ data[item] }}
+				<h2>{{ item }}</h2>
+					{% for point in data[item] %}
+					<li>{{ point }} : {{data[item][point]}}</li>
+					{% endfor %}
+			<br>
+			{% endfor %}
 		</h1>
 	</body>
 </html>

@@ -29,7 +29,8 @@ class Uploader:
         # data functions
         self.calculation_functions = {
             'average': self.calculate_average,
-            'median': self.calculate_median
+            'median': self.calculate_median,
+            'mode': self.calculate_mode
         }
 
         # default values
@@ -93,6 +94,11 @@ class Uploader:
     def calculate_median(array):
         """median"""
         return statistics.median(array)
+
+    @staticmethod
+    def calculate_mode(array):
+        """mode"""
+        return statistics.mode(array)
 
     def check_sheet(self):
         if self.sheet is None:
