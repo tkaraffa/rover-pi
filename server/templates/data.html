@@ -3,6 +3,11 @@
 		<link rel="stylesheet" href='/static/style.css'>
 	</head>
 	<body>
-		<h1>Here's some data {{% [d for d in data] %}}</h1>
+		<h1>Here's some data</h1>
+		<h1>
+			{% for item in data %}
+			{{ item }}
+			{{ data[item] }}
+		</h1>
 	</body>
 </html>
