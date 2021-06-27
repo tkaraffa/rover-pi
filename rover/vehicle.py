@@ -1,7 +1,7 @@
 import sys
 sys.path.append("/home/pi/rover-pi")
 
-from rover.rover_enums import Pins, Constants
+from enums.rover_enums import Pins, Constants
 from time import sleep
 import random
 
