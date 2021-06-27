@@ -113,7 +113,6 @@ class Uploader:
         row = [data.get(column) for column in self.columns]
         self.sheet.append_row(row)
 
-    @sheet_wrapper
     def download_data(self):
         data = self.sheet.get_all_records()
         aggs = {
