@@ -47,6 +47,7 @@ class Uploader:
             files = glob.glob("/home/pi/roverpi/**/credentials.json")
             if len(files) != 1:
                 print("Found more than one credentials file, using the first.")
+        print(files)
         return files[0]
 
     @staticmethod
