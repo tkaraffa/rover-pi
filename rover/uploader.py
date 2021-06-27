@@ -112,8 +112,10 @@ class Uploader:
         self.check_sheet()
         try:
             data = self.sheet.get_all_records()
+            last_record = data[-1]
             aggs = {
                 "reading_timestamp": datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
+                "last_record": last_record,
             }
             for function in self.calculation_functions:
                 f_name = function.__doc__

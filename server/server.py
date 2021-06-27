@@ -3,6 +3,7 @@ sys.path.append("/home/pi/rover-pi")
 
 from flask import Flask, render_template
 from datetime import datetime
+import json
 
 from rover.uploader import Uploader
 from config.uploader_enums import Flask_Enums
@@ -36,7 +37,7 @@ class Server(Uploader):
         @self.app.route('/data')
         def data():
             templateData = {
-                'data': str(self.download_data()),
+                'data': json.dumps(self.download_data(), indent=2),
             }
             return render_template('data.html', **templateData)
 
