@@ -1,6 +1,6 @@
 import sys
 sys.path.append("/home/pi/rover-pi")
-from server.server import Server
+from server import Server
 
 if __name__ == "__main__":
     test_app = Server()
