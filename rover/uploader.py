@@ -2,6 +2,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import os
 import statistics
+import json
 from rover_enums import Sheets_Enums
 
 
@@ -113,7 +114,7 @@ class Uploader:
             for column in self.numeric_columns:
                 array = [float(row.get(column)) for row in data if row.get(column) not in self.null_values]
                 aggs[f_name][column] = function(array)
-        print(aggs)
+        print(json.dumps(aggs, indent=2))
         return aggs
 
 
