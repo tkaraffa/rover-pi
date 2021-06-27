@@ -3,6 +3,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 import os
 import statistics
 import json
+from datetime import datetime
 from rover_enums import Sheets_Enums
 
 
@@ -107,7 +108,7 @@ class Uploader:
     @sheet_wrapper
     def download_data(self):
         data = self.sheet.get_all_records()
-        aggs = {}
+        aggs = {"reading_timestamp": datetime.now().strftime("%Y%m%d:%H%M%S")}
         for function in self.calculation_functions:
             f_name = function.__doc__
             aggs[f_name] = {}
