@@ -8,6 +8,7 @@ import statistics
 import json
 from datetime import datetime
 from config.uploader_enums import Sheets_Enums
+import glob
 
 
 class Uploader:
@@ -18,8 +19,9 @@ class Uploader:
         # user can pass values to these, or accept defaults as specified in Enums
         self.sheet_name = self.find_spreadsheet_name()
         self.scope = self.find_scope()
-        self.credentials_file = self.find_credentials_file()
-
+        self.credentials_file = self.find_file(
+            default=Sheets_Enums.AUTH_FILE.value,
+            filname="credentials.json")
         # Create sheet object, and read columns if available
         self.credentials = self.create_credentials()
         self.sheet = self.open_sheet()
@@ -38,19 +40,20 @@ class Uploader:
         self.numeric_columns = [column for column in self.columns if column not in self.non_data_columns]
 
     @staticmethod
+    def find_file(default, filename=None):
+        if filename is None:
+            filename = [default]
+        else:
+            files = glob.glob("/home/pi/roverpi/**/credentials.json")
+            if len(files) != 1:
+                print("Found more than one credentials file, using the first.")
+        return filename[0]
+
+    @staticmethod
     def find_spreadsheet_name(spreadsheet_name=None):
         if spreadsheet_name is None:
             spreadsheet_name = Sheets_Enums.SPREADSHEET_NAME.value
         return spreadsheet_name
-
-    @staticmethod
-    def find_credentials_file(credentials_file=None):
-
-        if credentials_file is None:
-            credentials_file = os.path.join(
-                os.path.dirname(__file__), Sheets_Enums.AUTH_FILE.value
-            )
-        return credentials_file
 
     @staticmethod
     def find_scope(scope=None):
