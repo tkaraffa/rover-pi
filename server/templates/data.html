@@ -4,7 +4,8 @@
 	</head>
 	<body>
 		<h1>Here's some data</h1>
-		<h2>There are {{ count }} records in {{ sheet }}</h2>
+		<h2>There are {{ count }} records in {{ sheet }}.</h2>
+		<h2>There are {{ unique_ids }} distinct rovers providing data.</h2>
 		<h1>
 			{% for item in data %}
 				<h2>{{ item }}</h2>
@@ -12,6 +13,14 @@
 					<li>{{ point }} : {{data[item][point]}}</li>
 					{% endfor %}
 			<br>
+			{% endfor %}
+		</h1>
+		<h1>
+			{% for item in last_record %}
+				<h2>The most recently uploaded is as follows:</h2>
+				{% for point in last_record[item] %}
+				<li>{{ point }} : {{data[item][point]}}</li>
+				{% endfor %}
 			{% endfor %}
 		</h1>
 	</body>

@@ -125,7 +125,7 @@ class Uploader:
             if aggregations is None:
                 aggregation_functions = self.calculation_functions
             else:
-                aggregation_functions = {func.lower(): self.calculation_functions[func.lower()] for func in aggregations}
+                aggregation_functions = {func.lower(): self.calculation_functions[func.lower()] for func in aggregations if func}
             for f_name, function in aggregation_functions.items():
                 aggregated_data[f_name] = {}
                 for column in self.numeric_columns:
@@ -140,11 +140,12 @@ class Uploader:
         self.check_sheet()
         try:
             cell = self.sheet.find(id_column)
-            column_number = cell.column
-            return self.sheet.col_values(column_number)
+            column_number = cell.col
+            return self.sheet.col_values(column_number)[1:]
         except Exception as e:
             print(str(e))
             self.sheet = None
+            return []
 
 
 
