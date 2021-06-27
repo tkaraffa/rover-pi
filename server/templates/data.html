@@ -15,13 +15,10 @@
 			<br>
 			{% endfor %}
 		</h1>
-		<h1>
-			{% for item in last_record %}
-				<h2>The most recently uploaded is as follows:</h2>
-				{% for point in last_record[item] %}
-				<li>{{ point }} : {{data[item][point]}}</li>
-				{% endfor %}
-			{% endfor %}
-		</h1>
+		<h1>The most recently uploaded is as follows:</h1>
+		{{ last_record }}
+		{% for item in last_record %}
+			<li>{{ item }} : {{last_record[item]}}</li>
+		{% endfor %}
 	</body>
 </html>

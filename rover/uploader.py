@@ -147,5 +147,12 @@ class Uploader:
             self.sheet = None
             return []
 
+    def download_most_recent_record(self):
+        self.check_sheet
+        try:
+            return self.sheet.get_all_records()[-1]
+        except Exception as e:
+            print(str(e))
+            self.sheet = None
 
 

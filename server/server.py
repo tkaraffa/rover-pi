@@ -42,14 +42,15 @@ class Server(Uploader):
             data = self.download_data(aggs)
             id_data = self.download_id_column_values()
             count = len(id_data)
-            unique_ids = len(set(id_data))
+            unique_ids = len(set(id_data)),
+            last_record = self.download_most_recent_record()
 
             templateData = {
                 'data': data,
                 'count': count,
                 'unique_ids': unique_ids,
                 'sheet': self.sheet_name,
-                'last_record': self.sheet.get_row_values(count),
+                'last_record': last_record,
             }
             return render_template('data.html', **templateData)
 
