@@ -7,6 +7,7 @@ import statistics
 from datetime import datetime
 from config.uploader_enums import Sheets_Enums
 import glob
+from pathlib import Path
 
 
 class Uploader:
@@ -42,7 +43,9 @@ class Uploader:
         if filename is None:
             filename = default
         else:
-            files = glob.glob(f"/home/pi/rover-pi/**/{filename}")
+            lookup = f"{Path.home()}/rover-pi/config/{filename}"
+            print(lookup)
+            files = glob.glob(lookup, recursive=True)
             if files is None:
                 files = default
             elif len(files) > 1:
