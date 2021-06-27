@@ -108,7 +108,6 @@ class Uploader:
 
         return wrapper
 
-    @sheet_wrapper
     def upload_data(self, data):
         row = [data.get(column) for column in self.columns]
         self.sheet.append_row(row)

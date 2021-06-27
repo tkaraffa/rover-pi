@@ -15,7 +15,6 @@ class Server(Uploader):
         self.debug = True
         self.host = Flask_Enums.HOST.value
 
-        self.d = self.download_data()
 
         @self.app.route('/')
         def index():
@@ -37,7 +36,7 @@ class Server(Uploader):
         @self.app.route('/data')
         def data():
             templateData = {
-                'data': str(self.d),
+                'data': str(self.download_data()),
             }
             return render_template('data.html', **templateData)
 
