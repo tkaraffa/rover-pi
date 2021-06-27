@@ -125,6 +125,7 @@ class Uploader:
             for column in self.numeric_columns:
                 array = [float(row.get(column)) for row in data if row.get(column) not in self.null_values]
                 aggs[f_name][column] = function(array)
+        print(aggs)
         return aggs
 
 

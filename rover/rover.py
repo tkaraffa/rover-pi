@@ -2,7 +2,7 @@ import sys
 sys.path.append("/home/pi/rover-pi")
 
 import subprocess
-from config.rover_enums import  Directories
+from config.uploader_enums import Directories
 from datetime import datetime
 
 # import warnings
