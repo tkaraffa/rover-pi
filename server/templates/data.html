@@ -25,9 +25,9 @@
 
 		{% for button in buttons %}
 			{% if button not in aggs %}
-				<a href="/data/{{ button }}" class="button">{{ button.title() }}</a>
+				<a href="/data/{{ button }}" class="button">{{ button.title().replace('_', ' ') }}</a>
 			{% else %}
-				<a href="/data" class="highlighted_button" style="font-weight:bold;">{{ button.title() }}</a>
+				<a href="/data" class="highlighted_button" style="font-weight:bold;">{{ button.title().replace('_', ' ') }}</a>
 			{% endif %}
 			<br><br>
 		{% endfor %}
