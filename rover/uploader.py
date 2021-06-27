@@ -42,11 +42,14 @@ class Uploader:
     @staticmethod
     def find_file(default, filename=None):
         if filename is None:
-            files = [default]
+            filename = default
         else:
-            files = glob.glob("/home/pi/rover-pi/**/credentials.json")
-            if len(files) != 1:
+            files = glob.glob(f"/home/pi/rover-pi/**/{filename}")
+            if files is None:
+                files = default
+            elif len(files) > 1:
                 print("Found more than one credentials file, using the first.")
+        print(files)
         return files[0]
 
     @staticmethod
