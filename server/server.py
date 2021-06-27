@@ -9,7 +9,7 @@ from config.uploader_enums import Flask_Enums
 
 class Server(Uploader):
     def __init__(self):
-        print(self.download_data())
+        print('data',self.download_data())
         super(Server, self).__init__()
 
 
