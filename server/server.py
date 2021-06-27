@@ -1,5 +1,5 @@
 import sys
-sys.path.append("~/rover-pi/rover")
+sys.path.append("../")
 print(sys.path)
 from uploader import Uploader
 
