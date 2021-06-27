@@ -44,7 +44,7 @@ class Uploader:
         if filename is None:
             files = [default]
         else:
-            files = glob.glob("/home/pi/roverpi/**/credentials.json")
+            files = glob.glob("/home/pi/rover-pi/**/credentials.json")
             if len(files) != 1:
                 print("Found more than one credentials file, using the first.")
         print(files)
