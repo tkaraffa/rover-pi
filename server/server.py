@@ -13,7 +13,6 @@ class Server(Uploader):
         print('data',self.download_data())
 
         self.app = Flask(__name__)
-
         self.debug = True
         self.host = Flask_Enums.HOST.value
 
@@ -43,5 +42,8 @@ class Server(Uploader):
 
     def run(self):
         self.app.run(debug=self.debug, host=self.host)
+
+    def download_data(self):
+        return super().download_data()
 
     

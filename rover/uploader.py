@@ -116,6 +116,7 @@ class Uploader:
     @sheet_wrapper
     def download_data(self):
         data = self.sheet.get_all_records()
+        print('data', len(data))
         aggs = {
             "reading_timestamp": datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
         }
