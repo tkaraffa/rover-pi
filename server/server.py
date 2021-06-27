@@ -37,7 +37,7 @@ class Server(Uploader):
         @self.app.route('/data/<aggs>')
         def data(aggs):
             templateData = {
-                'data': json.dumps(self.download_data(aggs), indent=2),
+                'data': json.dumps(self.download_data([aggs]), indent=2),
                 'agg': aggs
             }
             return render_template('data.html', **templateData)
