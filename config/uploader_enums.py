@@ -26,3 +26,6 @@ class Sheets_Enums(Enum):
         "ID",
         "Timestamp",
     ]
+
+class Flask_Enums(Enum):
+    HOST = '0.0.0.0'
