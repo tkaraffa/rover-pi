@@ -1,5 +1,7 @@
 import sys
-sys.path.append("../uploader")
+sys.path.append("/home/pi/rover-pi")
+sys.path.append("/home/pi/rover-pi/rover")
+
 print(sys.path)
 from uploader import Uploader
 
