@@ -29,3 +29,9 @@ class Sheets_Enums(Enum):
 
 class Flask_Enums(Enum):
     HOST = '0.0.0.0'
+    IGNORED_URLS = [
+        '<',
+        '>',
+        'test',
+        'static'
+    ]

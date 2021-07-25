@@ -3,6 +3,11 @@
 		<link rel="stylesheet" href='/static/style.css'>
 	</head>
 	<body>
+		{% if name is not none %}
 		<h1>Hello {{ name }}!</h1>
+		{% else %}
+		<h1>Hello! Please enter your name in the url (i.e., /hello/tom)</h1>
+		{% endif %}
 	</body>
 </html>
+	

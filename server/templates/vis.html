@@ -1,0 +1,37 @@
+<html>
+
+<head>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" href='/static/style.css'>
+</head>
+
+<body>
+
+
+    {% for button in buttons %}
+    {% if button not in columns %}
+    <a href="/vis/{{ button }}" class="button">{{ button.title().replace('_', ' ') }}</a>
+    {% else %}
+    <a href="/vis" class="highlighted_button" style="font-weight:bold;">{{ button.title().replace('_', ' ') }}</a>
+    {% endif %}
+    {% endfor %}
+    {% if graphJSONs %}
+    <h1>Here's some figures</h1>
+
+
+    {% for graph in graphJSONs %}
+        <div id="chart" class="chart"></div>
+        <script>
+            var graphs = {{graph | safe}};
+            Plotly.newPlot("chart", graphs, {});
+        </script>
+    {% endfor %}
+
+    {% else %}
+    <h1>This is where figures would go...</h1>
+    {% endif %}
+    <br>
+
+</body>
+
+</html>

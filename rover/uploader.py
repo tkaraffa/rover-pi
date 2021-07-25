@@ -164,7 +164,7 @@ class Uploader:
             return []
 
     def download_most_recent_record(self):
-        self.check_sheet
+        self.check_sheet()
         try:
             return self.sheet.get_all_records()[-1]
         except Exception as e:

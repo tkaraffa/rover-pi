@@ -6,6 +6,8 @@
 	<body>
 		<h1>My website</h1>
 		<h2>The date and time on the server is: {{ time }}</h2>
-		<a href="/hello/tom">Hi Tom</a>
+		{% for link in links %}
+		<a href="{{ link }}" class="button">{{ link }}</a>
+		{% endfor %}
 	</body>
 </html>
