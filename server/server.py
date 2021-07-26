@@ -104,28 +104,28 @@ class Server(Uploader):
             columns = []
         buttons = self.numeric_columns
         timestamps = [row["Timestamp"] for row in data]
+        ids = [row["ID"] for row in data]
         column_data = [
             [row[column.title()] for row in data] for column in columns
         ]
-        plots = [
-            go.Figure(
-                go.Scatter(
-                    x=timestamps,
-                    y=data,
-                    mode="markers",
-                    name=column,
-                ),
-                layout={
-                    'title': column,
-                    'legend_title': "Measurements",
-                    'showlegend': True,
+        graphJSONs = {
+            column:
+            json.dumps(
+                go.Figure(
+                    go.Scatter(
+                        x=timestamps,
+                        y=data,
+                        mode="markers",
+                        name=column
+                    ),
+                    layout={
+                        'title': column,
+                        'legend_title': "Measurements",
+                        'showlegend': True,
                 }
-            )
+            ), cls=PlotlyJSONEncoder)
             for column, data in zip(columns, column_data)
-        ]
-        graphJSONs = [
-            json.dumps(plot, cls=PlotlyJSONEncoder) for plot in plots
-        ]
+        }
         templateData = {
             "sheet": self.sheet_name,
             "timestamps": timestamps,

@@ -19,12 +19,12 @@
     <h1>Here's some figures</h1>
 
 
-    {% for graph in graphJSONs %}
-        <div id="chart" class="chart"></div>
-        <script>
-            var graphs = {{graph | safe}};
-            Plotly.newPlot("chart", graphs, {});
-        </script>
+    {% for column, graph in graphJSONs.items() %}
+    <div id={{column}} class={{column}}></div>
+    <script>
+        var graphs = {{ graph | safe}};
+        Plotly.newPlot({{ column }}, graphs, {});
+    </script>
     {% endfor %}
 
     {% else %}
