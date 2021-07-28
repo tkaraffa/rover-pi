@@ -45,7 +45,7 @@ class Server(Uploader):
         def hello(name):
             return render_template("page.html", name=name.title())
 
-        @self.app.route("/data")
+        @self.app.route("/data/")
         def data(aggs=None):
             templateData = self.create_data_for_pages(aggs)
             return render_template("data.html", **templateData)
@@ -55,7 +55,7 @@ class Server(Uploader):
             templateData = self.create_data_for_pages(aggs)
             return render_template("data.html", **templateData)
 
-        @self.app.route("/vis")
+        @self.app.route("/vis/")
         def vis(columns=None):
             templateData = self.create_visualizations(columns)
             return render_template("vis.html", **templateData)

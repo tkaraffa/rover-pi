@@ -6,13 +6,13 @@
 </head>
 
 <body>
-
-
     {% for button in buttons %}
+    {% set button_text = button.title().replace('_', ' ') %}
     {% if button not in columns %}
-    <a href="/vis/{{ button }}" class="button">{{ button.title().replace('_', ' ') }}</a>
+    {% set url = "/vis/" + button %}
+    <a href={{ url }} class="button">{{ button_text }}</a>
     {% else %}
-    <a href="/vis" class="highlighted_button" style="font-weight:bold;">{{ button.title().replace('_', ' ') }}</a>
+    <a href="/vis" class="highlighted_button" style="font-weight:bold;">{{ button_text }}</a>
     {% endif %}
     {% endfor %}
     {% if graphJSONs %}
