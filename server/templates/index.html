@@ -1,13 +1,20 @@
 <!DOCTYPE html>
-	<head>
-		<title>{{ title }}</title>
-		<link rel="stylesheet" href='/static/style.css'/>
-	</head>
-	<body>
-		<h1>My website</h1>
-		<h2>The date and time on the server is: {{ time }}</h2>
-		{% for link in links %}
-		<a href="{{ link }}" class="button">{{ link }}</a>
-		{% endfor %}
-	</body>
+
+<head>
+	<title>{{ title }}</title>
+	<link rel="stylesheet" href='/static/style.css' />
+</head>
+
+<body>
+	<div class="banner">
+		<nav class="banner2">
+			<header class="header">Raspberry Pi Rover</header>
+			<a href="/" alt="Home">Home</a> | <a href="/data" alt="Numbers">Numbers</a> | <a href="/vis"
+				alt="Pictures">Pictures</a>
+		</nav>
+
+	</div>
+	<p>The date and time on the server is: {{ time }}</p>
+</body>
+
 </html>

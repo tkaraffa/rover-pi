@@ -1,24 +1,32 @@
 <html>
 
 <head>
+    <title>{{ title }}</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <link rel="stylesheet" href='/static/style.css'>
 </head>
 
 <body>
+    <div class="banner">
+        <nav class="banner2">
+            <header class="header">Raspberry Pi Rover</header>
+            <a href="/" alt="Home">Home</a> | <a href="/data" alt="Numbers">Numbers</a> | <a href="/vis"
+                alt="Pictures">Pictures</a>
+        </nav>
+
+    </div>
     {% for button in buttons %}
     {% set button_text = button.title().replace('_', ' ') %}
     {% if button not in columns %}
     {% set url = "/vis/" + button %}
     <a href={{ url }} class="button">{{ button_text }}</a>
     {% else %}
-    <a href="/vis" class="highlighted_button" style="font-weight:bold;">{{ button_text }}</a>
+    <a href="/vis" class="button highlighted_button" style="font-weight:bold;">{{ button_text }}</a>
     {% endif %}
     {% endfor %}
+
     {% if graphJSONs %}
-    <h1>Here's some figures</h1>
-
-
+    <p>Here's some figures</p>
     {% for column, graph in graphJSONs.items() %}
     <div id={{column}} class={{column}}></div>
     <script>
@@ -26,11 +34,11 @@
         Plotly.newPlot({{ column }}, graphs, {});
     </script>
     {% endfor %}
-
     {% else %}
-    <h1>This is where figures would go...</h1>
+    <p>This is where figures would go...</p>
     {% endif %}
     <br>
+
 
 </body>
 

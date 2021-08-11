@@ -31,7 +31,7 @@ class Server(Uploader):
                 links.append((rule.endpoint))
             print(links)
             templateData = {
-                "title": "HELLO!",
+                "title": "RPiRover",
                 "time": now,
                 "links": links,
             }
@@ -84,6 +84,7 @@ class Server(Uploader):
         last_record = self.download_most_recent_record()
 
         templateData = {
+            "title": "Data",
             "data": data,
             "count": count,
             "unique_ids": unique_ids,
@@ -93,7 +94,6 @@ class Server(Uploader):
             "aggs": aggs,
         }
         return templateData
-
 
     def create_visualizations(self, columns=None):
         if columns is not None:
@@ -109,24 +109,23 @@ class Server(Uploader):
             [row[column.title()] for row in data] for column in columns
         ]
         graphJSONs = {
-            column:
-            json.dumps(
+            column: json.dumps(
                 go.Figure(
                     go.Scatter(
-                        x=timestamps,
-                        y=data,
-                        mode="markers",
-                        name=column
+                        x=timestamps, y=data, mode="markers", name=column
                     ),
                     layout={
-                        'title': column,
-                        'legend_title': "Measurements",
-                        'showlegend': True,
-                }
-            ), cls=PlotlyJSONEncoder)
+                        "title": column,
+                        "legend_title": "Measurements",
+                        "showlegend": True,
+                    },
+                ),
+                cls=PlotlyJSONEncoder,
+            )
             for column, data in zip(columns, column_data)
         }
         templateData = {
+            "title": "Visualizations",
             "sheet": self.sheet_name,
             "timestamps": timestamps,
             "column_data": column_data,

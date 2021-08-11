@@ -1,47 +1,61 @@
 <html>
-	<head>
-		<link rel="stylesheet" href='/static/style.css'>
-	</head>
-	<body>
-		<h1>Here's some data</h1>
 
-		{% if count == 1 %}
-		<h2>There is {{ count }} record in {{ sheet }}.</h2>
-		{% else %}
-		<h2>There are {{ count }} records in {{ sheet }}.</h2>
-		{% endif %}
+<head>
+	<title>{{ title }}</title>
+	<link rel="stylesheet" href='/static/style.css'>
+</head>
 
-		{% if unique_ids == 1 %}
-		<h2>There is {{ unique_ids }} distinct rover providing data.</h2>
-		{% else %}
-		<h2>There are {{ unique_ids }} distinct rovers providing data.</h2>
-		{% endif %}
+<body>
 
-		<h1>The most recently uploaded is as follows:</h1>
-		{% for item in last_record %}
-			<li>{{ item }} : {{last_record[item]}}</li>
-		{% endfor %}
-		<br>
+	<div class="banner">
+		<nav class="banner2">
+			<header class="header">Raspberry Pi Rover</header>
+			<a href="/" alt="Home">Home</a> | <a href="/data" alt="Numbers">Numbers</a> | <a href="/vis"
+				alt="Pictures">Pictures</a>
+		</nav>
+	</div>
 
-		{% for button in buttons %}
-			{% if button not in aggs %}
-				<a href="/data/{{ button }}" class="button">{{ button.title().replace('_', ' ') }}</a>
-			{% else %}
-				<a href="/data" class="highlighted_button" style="font-weight:bold;">{{ button.title().replace('_', ' ') }}</a>
-			{% endif %}
-			<br><br>
-		{% endfor %}
+	<p>Here's some data</p>
+	{% if count == 1 %}
+	<p>There is {{ count }} record in {{ sheet }}.</p>
+	{% else %}
+	<p>There are {{ count }} records in {{ sheet }}.</p>
+	{% endif %}
 
-		<h1>
-			{% for item in data %}
-				<h2>{{ item }}</h2>
-					{% for point in data[item] %}
-					<li>{{ point }} : {{data[item][point]}}</li>
-					{% endfor %}
-			<br>
-			{% endfor %}
-		</h1>
-		<br>
+	{% if unique_ids == 1 %}
+	<p>There is {{ unique_ids }} distinct rover providing data.</p>
+	{% else %}
+	<p>There are {{ unique_ids }} distinct rovers providing data.</p>
+	{% endif %}
 
-	</body>
+	<p>The most recently uploaded row is as follows:</p>
+	{% for item in last_record %}
+	<li>{{ item }} : {{last_record[item]}}</li>
+	{% endfor %}
+	<br>
+
+
+
+
+
+	{% for button in buttons %}
+	{% if button not in aggs %}
+	<a href="/data/{{ button }}" class="button">{{ button.title().replace('_', ' ') }}</a>
+	{% else %}
+	<a href="/data" class="button highlighted_button" style="font-weight:bold;">{{ button.title().replace('_', ' ')
+		}}</a>
+	{% endif %}
+	{% endfor %}
+
+	{% for item in data %}
+	<p>{{ item.title() }}</p>
+	{% for point in data[item] %}
+	<li>{{ point }} : {{data[item][point]}}</li>
+	{% endfor %}
+	<br>
+	{% endfor %}
+	<br>
+
+</body>
+
 </html>

@@ -1,12 +1,43 @@
+.banner2 {
+    padding: 3%;
+}
+
+html {
+	height: 100%;
+}
+
+.header {
+    size: 25px;
+}
+
+head {
+    color: #8399ac;
+    text-decoration: none;
+}
+
 body {
-	background: #6a5acd;
-	color: #d3d3d3;
+    font-family: sans;
+    color: #8399ac;
+    background: linear-gradient(160deg, #222, #444);
+    height: 100%;
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+a:link, a:visited, a:active{
+    color:  #8399ac;
+    text-decoration: none;
+}
+
+a:hover {
+    color: coral;
 }
 
 .button {
 	font: 15px Arial;
 	text-decoration: none;
-	background-color: #EEEEEE;
+	background-color: #222222;
 	color: #333333;
 	padding: 2px 6px 2px 6px;
 	border-top: 1px solid #CCCCCC;
@@ -15,14 +46,6 @@ body {
 	border-left: 1px solid #CCCCCC;
   }
 
-.highlighted_button {
-	font: bold 15px Arial;
-	text-decoration: none;
-	background-color: #EEEEEE;
-	color: #333333;
-	padding: 2px 6px 2px 6px;
-	border-top: 1px solid #CCCCCC;
-	border-right: 1px solid #333333;
-	border-bottom: 1px solid #333333;
-	border-left: 1px solid #CCCCCC;
+button.highlighted_button {
+	font: bold 120px Arial;
   }
