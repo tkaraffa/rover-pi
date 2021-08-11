@@ -1,10 +1,15 @@
 # rover-pi
+
 Raspberry Pi-powered rover, for the CA Space Grant Scholarship through NASA at San Diego Miramar College.
 
-## Useful commands
-#### In the Pi terminal
-* connect to pi at command line `ssh pi@raspberrypi.local`
+## Rover
 
-#### In the computer terminal
-* copy a file to the pi `scp myfile.txt pi@raspberrypi.local:project/`
-* copy a folder to the pit `scp -r myDirectory pi@raspberrypi.local:project/`
+The `/rover` directory contains code focused on the physical rover, including driving, environmental readings, and uploading data to a Google spreadsheet. 
+
+`minute_demo.py` sets the rover on a one minute loop of driving and sensing environmental data.
+
+## Server
+
+The `/server` directory contains code to host a lightweight server and display aggregated data and visualizations of the collected environmental data.
+
+`app.py` runs the server, which can then be accessed locally.
