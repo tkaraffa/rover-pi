@@ -145,10 +145,14 @@ class Vehicle:
     def goForward(self):
         self.RightForward.on()
         self.LeftForward.on()
+        self.RightSpeedPWM.value = self.high_speed
+        self.LeftSpeedPWM.value = self.high_speed
 
     def goBackward(self):
         self.RightBackward.on()
         self.LeftBackward.on()
+        self.RightSpeedPWM.value = self.high_speed
+        self.LeftSpeedPWM.value = self.high_speed
 
     def spinRight(self):
         self.RightBackward.on()
