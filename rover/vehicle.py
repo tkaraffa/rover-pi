@@ -100,7 +100,7 @@ class Vehicle:
 
     def accel(self, time=None):
         if not time:
-            time = self.accel
+            time = self.accel_time
         max_speed = int(self.high_speed * self.accel_increment)
         min_speed = int(self.low_speed * self.accel_increment)
         speed_delta = max_speed - min_speed
