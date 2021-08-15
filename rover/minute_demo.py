@@ -5,13 +5,11 @@ from multiprocessing import Process
 
 
 def minute_loop():
-    print("time loop")
     sleep(60)
 
 
 def minute_drive(rover):
     while True:
-        print("drive loop")
         rover.goForward()
         sleep(1.5)
         rover.spinRight()
@@ -20,7 +18,6 @@ def minute_drive(rover):
 
 def minute_sense(rover):
     while True:
-        print("sense loop")
         data = rover.create_data()
         rover.upload_data(data)
         rover.download_data()
