@@ -33,10 +33,10 @@ class Vehicle:
         self.travel = 0
         self.clockwise_rotation = 0
         self.counterclockwise_rotation = 0
-        self.accel_increment = 100
-        self.decel_increment = 100
-        self.accel_time = 5
-        self.decel_time = 5
+        # self.accel_increment = 100
+        # self.decel_increment = 100
+        # self.accel_time = 5
+        # self.decel_time = 5
         self.DistanceSensor.threshold = 0.5
 
         # assign functions to sensors
@@ -52,15 +52,15 @@ class Vehicle:
         except:
             return None
 
-    def add_travel(self):
-        """Depending on boolean, either record distance travelled,
-        record clockwise rotation, or record counterclockwise roatation"""
-        if self.record_travel == True:
-            self.travel += 1
-        if self.record_clockwise_rotation == True:
-            self.clockwise_rotation += 1
-        if self.record_counterclockwise_rotation == True:
-            self.counterclockwise_rotation += 1
+    # def add_travel(self):
+    #     """Depending on boolean, either record distance travelled,
+    #     record clockwise rotation, or record counterclockwise roatation"""
+    #     if self.record_travel == True:
+    #         self.travel += 1
+    #     if self.record_clockwise_rotation == True:
+    #         self.clockwise_rotation += 1
+    #     if self.record_counterclockwise_rotation == True:
+    #         self.counterclockwise_rotation += 1
 
     def change_direction(self):
         """Randomly choose a function to avoid an obstacle
@@ -80,23 +80,23 @@ class Vehicle:
         self.RightSpeedPWM.value = 0
         self.LeftSpeedPWM.value = 0
 
-    def do_record_travel(function):
-        "Start recording travel"
-        def wrapper(self):
-            self.record_travel = True
-            self.stop()
-            function(self)
+    # def do_record_travel(function):
+    #     "Start recording travel"
+    #     def wrapper(self):
+    #         self.record_travel = True
+    #         self.stop()
+    #         function(self)
 
-        return wrapper
+    #     return wrapper
 
-    def do_not_record_travel(function):
-        "Stop recording travel"
-        def wrapper(self):
-            self.record_travel = False
-            self.stop()
-            function(self)
+    # def do_not_record_travel(function):
+    #     "Stop recording travel"
+    #     def wrapper(self):
+    #         self.record_travel = False
+    #         self.stop()
+    #         function(self)
 
-        return wrapper
+    #     return wrapper
 
     # def accel(self, time=None):
     #     if not time:
@@ -142,59 +142,50 @@ class Vehicle:
 
     #     return wrapper
 
-    @do_record_travel
     def goForward(self):
         self.RightForward.on()
         self.LeftForward.on()
 
-    @do_record_travel
     def goBackward(self):
         self.RightBackward.on()
         self.LeftBackward.on()
 
-    @do_not_record_travel
     def spinRight(self):
         self.RightBackward.on()
         self.LeftForward.on()
         self.RightSpeedPWM.value = self.high_speed
         self.LeftSpeedPWM.value = self.high_speed
 
-    @do_not_record_travel
     def spinLeft(self):
         self.RightForward.on()
         self.LeftBackward.on()
         self.RightSpeedPWM.value = self.high_speed
         self.LeftSpeedPWM.value = self.high_speed
 
-    @do_record_travel
     def turnForwardRight(self):
         self.RightForward.on()
         self.LeftForward.on()
         self.RightSpeedPWM.value = self.low_speed
         self.LeftSpeedPWM.value = self.high_speed
 
-    @do_record_travel
     def turnForwardLeft(self):
         self.RightForward.on()
         self.LeftForward.on()
         self.RightSpeedPWM.value = self.high_speed
         self.LeftSpeedPWM.value = self.low_speed
 
-    @do_record_travel
     def turnBackwardRight(self):
         self.RightBackward.on()
         self.LeftBackward.on()
         self.RightSpeedPWM.value = self.low_speed
         self.LeftSpeedPWM.value = self.high_speed
 
-    @do_record_travel
     def turnBackwardLeft(self):
         self.RightBackward.on()
         self.LeftBackward.on()
         self.RightSpeedPWM.value = self.high_speed
         self.LeftSpeedPWM.value = self.low_speed
 
-    @do_not_record_travel
     def turnRight(self):
         for _ in range(2):
             self.turnForwardRight()
@@ -202,7 +193,6 @@ class Vehicle:
             self.turnBackwardLeft()
             sleep(self.turn_time)
 
-    @do_not_record_travel
     def turnLeft(self):
         for _ in range(2):
             self.turnForwardLeft()

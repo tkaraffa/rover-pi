@@ -37,14 +37,6 @@ class Server(Uploader):
             }
             return render_template("index.html", **templateData)
 
-        @self.app.route("/test")
-        def test():
-            return render_template("test.html")
-
-        @self.app.route("/hello/<name>")
-        def hello(name):
-            return render_template("page.html", name=name.title())
-
         @self.app.route("/data/")
         def data(aggs=None):
             templateData = self.create_data_for_pages(aggs)
@@ -64,12 +56,6 @@ class Server(Uploader):
         def vis_col(columns=None):
             templateData = self.create_visualizations(columns)
             return render_template("vis.html", **templateData)
-
-    @staticmethod
-    def has_no_empty_params(rule):
-        defaults = rule.defaults if rule.defaults is not None else ()
-        arguments = rule.arguments if rule.arguments is not None else ()
-        return len(defaults) >= len(arguments)
 
     def create_data_for_pages(self, aggs=None):
         if aggs is not None:
@@ -118,7 +104,9 @@ class Server(Uploader):
                         "title": column,
                         "legend_title": "Measurements",
                         "showlegend": True,
-                    },
+                        "plot_bgcolor":"#CCC",
+                        "paper_bgcolor":"#888",
+                       },
                 ),
                 cls=PlotlyJSONEncoder,
             )
