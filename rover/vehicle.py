@@ -147,6 +147,7 @@ class Vehicle:
     def goForward(self):
         self.RightForward.on()
         self.LeftForward.on()
+        print("forward")
 
     @do_record_travel
     @accel_decel_decorator
