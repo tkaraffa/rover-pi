@@ -98,56 +98,58 @@ class Vehicle:
 
         return wrapper
 
-    # def accel(self, time=None):
-    #     if not time:
-    #         time = self.accel
-    #     max_speed = int(self.high_speed * self.accel_increment)
-    #     min_speed = int(self.low_speed * self.accel_increment)
-    #     speed_delta = max_speed - min_speed
-    #     for speed in range(min_speed, max_speed):
-    #         self.RightSpeedPWM.value = speed / self.accel_increment
-    #         self.LeftSpeedPWM.value = speed / self.accel_increment
-    #         sleep(time / speed_delta)
+    def accel(self, time=None):
+        if not time:
+            time = self.accel
+        max_speed = int(self.high_speed * self.accel_increment)
+        min_speed = int(self.low_speed * self.accel_increment)
+        speed_delta = max_speed - min_speed
+        for speed in range(min_speed, max_speed):
+            self.RightSpeedPWM.value = speed / self.accel_increment
+            self.LeftSpeedPWM.value = speed / self.accel_increment
+            sleep(time / speed_delta)
 
-    # def decel(self, time=None):
-    #     if not time:
-    #         time = self.decel_time
-    #     max_speed = int(self.high_speed * self.decel_increment)  # 90
-    #     min_speed = int(self.low_speed * self.decel_increment)  # 20
-    #     speed_delta = max_speed - min_speed
-    #     for speed in reversed(range(min_speed, max_speed)):
-    #         self.RightSpeedPWM.value = speed / self.decel_increment
-    #         self.LeftSpeedPWM.value = speed / self.decel_increment
-    #         sleep(time / speed_delta)
+    def decel(self, time=None):
+        if not time:
+            time = self.decel_time
+        max_speed = int(self.high_speed * self.decel_increment)  # 90
+        min_speed = int(self.low_speed * self.decel_increment)  # 20
+        speed_delta = max_speed - min_speed
+        for speed in reversed(range(min_speed, max_speed)):
+            self.RightSpeedPWM.value = speed / self.decel_increment
+            self.LeftSpeedPWM.value = speed / self.decel_increment
+            sleep(time / speed_delta)
 
-    # def accel_decel_decorator(function):
-    #     def wrapper(self):
-    #         function(self)
-    #         self.accel()
-    #         self.decel()
+    def accel_decel_decorator(function):
+        def wrapper(self):
+            function(self)
+            self.accel()
+            self.decel()
 
-    #     return wrapper
+        return wrapper
 
-    # def accel_decorator(function):
-    #     def wrapper(self):
-    #         function(self)
-    #         self.accel()
+    def accel_decorator(function):
+        def wrapper(self):
+            function(self)
+            self.accel()
 
-    #     return wrapper
+        return wrapper
 
-    # def decel_decorator(function):
-    #     def wrapper(self):
-    #         function(self)
-    #         self.decel()
+    def decel_decorator(function):
+        def wrapper(self):
+            function(self)
+            self.decel()
 
-    #     return wrapper
+        return wrapper
 
     @do_record_travel
+    @accel_decel_decorator
     def goForward(self):
         self.RightForward.on()
         self.LeftForward.on()
 
     @do_record_travel
+    @accel_decel_decorator
     def goBackward(self):
         self.RightBackward.on()
         self.LeftBackward.on()
