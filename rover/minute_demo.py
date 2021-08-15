@@ -25,9 +25,10 @@ def minute_sense(rover):
 
 
 if __name__ == "__main__":
+    rover = Rover()
     loop = Process(target=minute_loop)
-    drive = Process(target=minute_drive)
-    sense = Process(target=minute_sense)
+    drive = Process(target=minute_drive, args=(rover,))
+    sense = Process(target=minute_sense, args=(rover,))
     loop.start()
     drive.start()
     sense.start()
