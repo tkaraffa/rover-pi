@@ -40,7 +40,7 @@ class Vehicle:
         self.DistanceSensor.threshold = 0.5
 
         # assign functions to sensors
-        # self.RotaryEncoder.when_pressed = self.add_travel
+        self.RotaryEncoder.when_pressed = self.add_travel
         self.DistanceSensor.when_in_range = self.change_direction
 
     def __del__(self):
