@@ -25,7 +25,7 @@ class Vehicle:
         self.LeftForward = Pins.LEFTFORWARD.value
         self.LeftBackward = Pins.LEFTBACKWARD.value
         self.LeftSpeedPWM = Pins.LEFTSPEEDPWM.value
-        self.RotaryEncoder = Pins.ROTARYENCODER.value
+        # self.RotaryEncoder = Pins.ROTARYENCODER.value
         self.DistanceSensor = Pins.DISTANCESENSOR.value
 
         # default values
@@ -69,6 +69,7 @@ class Vehicle:
         choice = random.choice(
             [self.spinLeft, self.spinRight, self.turnLeft, self.turnRight]
         )
+        print("Avoiding.")
         choice()
 
     def stop(self):
