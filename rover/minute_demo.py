@@ -12,7 +12,7 @@ def minute_loop():
 def minute_drive(rover):
     while True:
         print("drive loop")
-        rover.goBackward()
+        rover.goForward()
         sleep(.5)
         rover.spinRight()
         sleep(1.5)
