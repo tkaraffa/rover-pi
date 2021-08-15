@@ -1,4 +1,5 @@
 import sys
+sys.path.append("/home/pi/rover-pi")
 from rover import Rover
 from time import sleep
 from multiprocessing import Process
