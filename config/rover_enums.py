@@ -14,11 +14,11 @@ from gpiozero import (
 # Note that the atmosphere sensor uses the board & adafruit_dht libraries; the rest use gpiozero
 
 class Pins(Enum):
-    RIGHTBACKWARD=DigitalOutputDevice(5)
-    RIGHTFORWARD=DigitalOutputDevice(6)
+    RIGHTBACKWARD=DigitalOutputDevice(6)
+    RIGHTFORWARD=DigitalOutputDevice(5)
     RIGHTSPEEDPWM=PWMOutputDevice(13)
-    LEFTBACKWARD=DigitalOutputDevice(16)
-    LEFTFORWARD=DigitalOutputDevice(20)
+    LEFTBACKWARD=DigitalOutputDevice(20)
+    LEFTFORWARD=DigitalOutputDevice(16)
     LEFTSPEEDPWM=PWMOutputDevice(21)
     ROTARYENCODER=Button(26)
     DISTANCESENSOR=DistanceSensor(echo=23, trigger=24)
