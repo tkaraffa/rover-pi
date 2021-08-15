@@ -7,7 +7,7 @@ from multiprocessing import Process
 
 def minute_loop():
     print("time loop")
-    sleep(5)
+    sleep(10)
 
 
 def minute_drive(rover):
