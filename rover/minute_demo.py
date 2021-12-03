@@ -1,26 +1,32 @@
-import sys
+"""minute_demo.py
+
+Runs all usable features of the Rover at once.
+Drives and collects data in a timeframe, then stops.
+"""
+
 from rover import Rover
 from time import sleep
 from multiprocessing import Process
 
 
 def minute_loop():
-    print("time loop")
-    sleep(50)
+    t = 50
+    print(f"Timer Loop: {t} seconds")
+    sleep(t)
 
 
 def minute_drive(rover):
     while True:
-        print("drive loop")
+        print('Driving Loop: driving "autonomously"')
         rover.goForward()
-        sleep(.5)
+        sleep(0.5)
         rover.spinRight()
         sleep(1.5)
 
 
 def minute_sense(rover):
     while True:
-        print("sense loop")
+        print("Environmental Sensor Loop: reading environmental conditions")
         data = rover.create_data()
         rover.upload_data(data)
         rover.download_data()
