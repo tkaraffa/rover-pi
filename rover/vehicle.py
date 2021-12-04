@@ -1,15 +1,29 @@
 import sys
+
 sys.path.append("/home/pi/rover-pi")
 
 from config.rover_enums import Pins, Constants
 from time import sleep
 import random
 
-# import warnings
-# warnings.filterwarnings("ignore")
-
 
 class Vehicle:
+    """Class for driving around and having fun.
+
+    Attributes
+    ----------
+    Constant values:
+        Constants for turning and driving
+    Pins:
+        GPIO pins corresponding to gpiozero classes for input/output
+    default_values:
+        values associated with recording movement, distance traveled, and
+        sensing distance
+    functions:
+        gpiozero functions associated with changing direction and recording
+        traveled distance
+    """
+
     def __init__(self):
         super(Vehicle, self).__init__()
         # Constant Values
@@ -47,6 +61,7 @@ class Vehicle:
         self.stop()
 
     def sense_distance(self):
+        """Get value from Distance Sensor"""
         try:
             return self.DistanceSensor.distance
         except:
@@ -82,6 +97,7 @@ class Vehicle:
 
     def do_record_travel(function):
         "Start recording travel"
+
         def wrapper(self):
             self.record_travel = True
             self.stop()
@@ -91,6 +107,7 @@ class Vehicle:
 
     def do_not_record_travel(function):
         "Stop recording travel"
+
         def wrapper(self):
             self.record_travel = False
             self.stop()
@@ -121,6 +138,8 @@ class Vehicle:
             sleep(time / speed_delta)
 
     def accel_decel_decorator(function):
+        """Decorator to accelerate, then decelerate while moving."""
+
         def wrapper(self):
             function(self)
             self.accel()
@@ -129,6 +148,8 @@ class Vehicle:
         return wrapper
 
     def accel_decorator(function):
+        """Decorator to accelerate over time."""
+
         def wrapper(self):
             function(self)
             self.accel()
@@ -136,6 +157,8 @@ class Vehicle:
         return wrapper
 
     def decel_decorator(function):
+        """Decorator to decelerate over time."""
+
         def wrapper(self):
             function(self)
             self.decel()
@@ -145,18 +168,20 @@ class Vehicle:
     @do_record_travel
     @accel_decel_decorator
     def goForward(self):
+        "Move the Rover forward."
         self.RightForward.on()
         self.LeftForward.on()
-        print("forward")
 
     @do_record_travel
     @accel_decel_decorator
     def goBackward(self):
+        "Move the Rover backward."
         self.RightBackward.on()
         self.LeftBackward.on()
 
     @do_not_record_travel
     def spinRight(self):
+        "Spin the Rover to the right in place."
         self.RightBackward.on()
         self.LeftForward.on()
         self.RightSpeedPWM.value = self.high_speed
@@ -164,6 +189,7 @@ class Vehicle:
 
     @do_not_record_travel
     def spinLeft(self):
+        "Spin the jrover to the left in place."
         self.RightForward.on()
         self.LeftBackward.on()
         self.RightSpeedPWM.value = self.high_speed
@@ -171,6 +197,7 @@ class Vehicle:
 
     @do_record_travel
     def turnForwardRight(self):
+        "Moves the Rover forward and to the right in an arc."
         self.RightForward.on()
         self.LeftForward.on()
         self.RightSpeedPWM.value = self.low_speed
@@ -178,6 +205,7 @@ class Vehicle:
 
     @do_record_travel
     def turnForwardLeft(self):
+        "Moves the Rover forward and to the left in an arc."
         self.RightForward.on()
         self.LeftForward.on()
         self.RightSpeedPWM.value = self.high_speed
@@ -185,6 +213,7 @@ class Vehicle:
 
     @do_record_travel
     def turnBackwardRight(self):
+        "Moves the Rover backward and to the right in an arc."
         self.RightBackward.on()
         self.LeftBackward.on()
         self.RightSpeedPWM.value = self.low_speed
@@ -192,6 +221,7 @@ class Vehicle:
 
     @do_record_travel
     def turnBackwardLeft(self):
+        "Moves the Rover backward and to the left in an arc."
         self.RightBackward.on()
         self.LeftBackward.on()
         self.RightSpeedPWM.value = self.high_speed
@@ -199,6 +229,7 @@ class Vehicle:
 
     @do_not_record_travel
     def turnRight(self):
+        "Performs a 5-point turn to face to the right."
         for _ in range(2):
             self.turnForwardRight()
             sleep(self.turn_time)
@@ -207,6 +238,7 @@ class Vehicle:
 
     @do_not_record_travel
     def turnLeft(self):
+        "Performs a 5-point turn to face to the left."
         for _ in range(2):
             self.turnForwardLeft()
             sleep(self.turn_time)
