@@ -3,8 +3,8 @@ import sys
 
 sys.path.append("/home/pi/rover-pi")
 
-from flask import Flask, render_template, url_for
-from datetime import datetime, time
+from flask import Flask, render_template
+from datetime import datetime
 import plotly.graph_objects as go
 from plotly.utils import PlotlyJSONEncoder
 import json
@@ -13,6 +13,21 @@ from config.uploader_enums import Flask_Enums
 
 
 class Server(Uploader):
+    """Server class for hosting a Flask webpage server.
+
+    Attributes
+    ----------
+    app:
+        The Flask application
+    debug: bool
+        Debug mode
+    host: str
+        The Host location
+    app.config:
+        Configurations for the application
+
+    """
+
     def __init__(self):
         super(Server, self).__init__()
 
@@ -71,7 +86,19 @@ class Server(Uploader):
         arguments = rule.arguments if rule.arguments is not None else ()
         return len(defaults) >= len(arguments)
 
-    def create_data_for_pages(self, aggs=None):
+    def create_data_for_pages(self, aggs: str = None):
+        """Creates aggreagates to display on webpage
+
+        Parameters
+        ----------
+        aggs: str
+            Aggregates read from the page's URL to display
+
+        Returns
+        -------
+        tempteData: dict
+            Dictionary containing data to dispaly, ready to parse in Jinja template
+        """
         if aggs is not None:
             aggs = aggs.split(",")
             data = self.download_data(aggs)
@@ -96,6 +123,18 @@ class Server(Uploader):
         return templateData
 
     def create_visualizations(self, columns=None):
+        """Creates visualizations to display
+
+        Parameters
+        ----------
+        columns: str
+            Columns read from the page's URL to display
+
+        Returns
+        -------
+        templateData: dict
+            Dictionary containing data to dispaly, ready to parse in Jinja template
+        """
         if columns is not None:
             columns = columns.split(",")
             data = self.sheet.get_all_records(columns)
@@ -104,7 +143,6 @@ class Server(Uploader):
             columns = []
         buttons = self.numeric_columns
         timestamps = [row["Timestamp"] for row in data]
-        ids = [row["ID"] for row in data]
         column_data = [
             [row[column.title()] for row in data] for column in columns
         ]
